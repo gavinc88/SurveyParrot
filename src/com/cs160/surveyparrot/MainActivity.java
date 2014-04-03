@@ -1,6 +1,13 @@
 package com.cs160.surveyparrot;
 
 import android.app.Activity;
+<<<<<<< HEAD
+=======
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+>>>>>>> 3e8756dcbd2bb7a485133cdf78d86a5323a0eb1f
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +20,15 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button resumeButton, startButton, redeemButton;
 	private boolean hasActiveSurvey; //true if the user quits while taking a survey
 	
+	Context context;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		context = this;
+		
 		resumeButton = (Button) findViewById(R.id.bResumeSurvey);
 		resumeButton.setOnClickListener(this);
 		startButton = (Button) findViewById(R.id.bStartSurvey);
@@ -48,10 +60,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bResumeSurvey:
+			Intent resumeSurvey = new Intent(context, ResumeSurvey.class);
+	        startActivity(resumeSurvey);
 			break;
 		case R.id.bStartSurvey:
+			Intent startSurvey = new Intent(context, StartSurvey.class);
+	        startActivity(startSurvey);
 			break;
 		case R.id.bRedeemRewards:
+			Intent redeemRewards = new Intent(context, RedeemRewards.class);
+	        startActivity(redeemRewards);
 			break;
 		}		
 	}
