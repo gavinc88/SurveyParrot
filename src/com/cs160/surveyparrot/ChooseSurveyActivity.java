@@ -37,6 +37,7 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener {
 			startSurvey.putExtra("survey", surveyName);
 			startSurvey.putExtra("questionNumber", 1);
 	        startActivity(startSurvey);
+	        finish();
 			break;
 		case R.id.bNo:
 			loadNewSurvey();
@@ -45,7 +46,7 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener {
 	}
 	
 	private void fetchSurvey(){
-		//set survey object to something
+		//get survey info from server
 		surveyName = "Snacks";
 	}
 	

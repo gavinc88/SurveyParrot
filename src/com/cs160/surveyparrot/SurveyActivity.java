@@ -45,8 +45,8 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		questionNumber = args.getInt("questionNumber");
 		
 		getSurveyQuestions(surveyName); //make server call to get survey info
-		
-		loadQuestion(questionNumber);		
+
+		loadQuestion(questionNumber);
 	}
 	
 	@Override
@@ -66,6 +66,12 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		}		
 	}
 	
+	@Override
+	public void onBackPressed(){
+		super.onBackPressed();
+		saveSurvey();
+	}
+	
 	private void saveSurvey(){
 		//save survey for resume
 	}
@@ -83,19 +89,16 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		progressbar.setProgress(questionNumber);
 		if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			ft.remove(questionFragment);
 			questionFragment = new QuestionMultipleChoiceFragment();
-			ft.add(R.id.questionFragment, questionFragment).commit();
+			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_RATING){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			ft.remove(questionFragment);
 			questionFragment = new QuestionRatingFragment();
-			ft.add(R.id.questionFragment, questionFragment).commit();
+			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_YES_NO){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			ft.remove(questionFragment);
 			questionFragment = new QuestionYesNoFragment();
-			ft.add(R.id.questionFragment, questionFragment).commit();
+			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}
 	}
 	
@@ -106,9 +109,8 @@ public class SurveyActivity extends Activity implements OnClickListener {
 			progressMessage.setText("Survey Completed!");
 			repeatButton.setVisibility(View.INVISIBLE);
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			ft.remove(questionFragment);
 			Fragment newFragment = new SurveyCompleteFragment();
-			ft.add(R.id.questionFragment, newFragment).commit();
+			ft.replace(R.id.questionFragment, newFragment).commit();
 		}else{
 			loadQuestion(questionNumber);
 		}

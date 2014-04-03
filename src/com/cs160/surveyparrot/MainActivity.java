@@ -61,17 +61,17 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bResumeSurvey:
-			Intent resumeSurvey = new Intent(context, SurveyActivity.class);
+			Intent resumeSurvey = new Intent(this, SurveyActivity.class);
 			resumeSurvey.putExtra("survey", surveyName);
 			resumeSurvey.putExtra("questionNumber", questionNumber);
 	        startActivity(resumeSurvey);
 			break;
 		case R.id.bStartSurvey:
-			Intent startSurvey = new Intent(context, ChooseSurveyActivity.class);
+			Intent startSurvey = new Intent(this, ChooseSurveyActivity.class);
 	        startActivity(startSurvey);
 			break;
 		case R.id.bRedeemRewards:
-			Intent redeemRewards = new Intent(context, RedeemRewardsActivity.class);
+			Intent redeemRewards = new Intent(this, RedeemRewardsActivity.class);
 	        startActivity(redeemRewards);
 			break;
 		}		
