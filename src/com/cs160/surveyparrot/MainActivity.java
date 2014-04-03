@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		//if active survey exists (check database)
 		hasActiveSurvey = true;
 		surveyName = "Snacks";
-		questionNumber = 2;
+		questionNumber = 3;
 		//else hasActiveSurvey = false;
 	}
 
