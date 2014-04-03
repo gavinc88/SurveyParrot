@@ -8,11 +8,61 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="The following survey contains questions regarding:"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/surveyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="TextView" />
+        android:layout_marginTop="40dp"
+        android:text="Survey Name"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/surveyName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Would you like to take this survey?"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/bYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Yes" />
+
+        <Button
+            android:id="@+id/bNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="No" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -1,13 +1,8 @@
 package com.cs160.surveyparrot;
 
 import android.app.Activity;
-<<<<<<< HEAD
-=======
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
->>>>>>> 3e8756dcbd2bb7a485133cdf78d86a5323a0eb1f
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,15 +14,17 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private Button resumeButton, startButton, redeemButton;
 	private boolean hasActiveSurvey; //true if the user quits while taking a survey
-	
+	private String surveyName;
+	private int questionNumber;
 	Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 		context = this;
+		
+		getResumableSurvey();
 		
 		resumeButton = (Button) findViewById(R.id.bResumeSurvey);
 		resumeButton.setOnClickListener(this);
@@ -35,6 +32,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		startButton.setOnClickListener(this);
 		redeemButton = (Button) findViewById(R.id.bRedeemRewards);
 		redeemButton.setOnClickListener(this);
+		
+		if(!hasActiveSurvey){
+			resumeButton.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -60,18 +61,28 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bResumeSurvey:
-			Intent resumeSurvey = new Intent(context, ResumeSurvey.class);
+			Intent resumeSurvey = new Intent(context, SurveyActivity.class);
+			resumeSurvey.putExtra("survey", surveyName);
+			resumeSurvey.putExtra("questionNumber", questionNumber);
 	        startActivity(resumeSurvey);
 			break;
 		case R.id.bStartSurvey:
-			Intent startSurvey = new Intent(context, StartSurvey.class);
+			Intent startSurvey = new Intent(context, ChooseSurveyActivity.class);
 	        startActivity(startSurvey);
 			break;
 		case R.id.bRedeemRewards:
-			Intent redeemRewards = new Intent(context, RedeemRewards.class);
+			Intent redeemRewards = new Intent(context, RedeemRewardsActivity.class);
 	        startActivity(redeemRewards);
 			break;
 		}		
+	}
+	
+	private void getResumableSurvey(){
+		//if active survey exists (check database)
+		hasActiveSurvey = true;
+		surveyName = "Snacks";
+		questionNumber = 2;
+		//else hasActiveSurvey = false;
 	}
 
 }

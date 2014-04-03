@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs160.surveyparrot.Login" >
+    tools:context="com.cs160.surveyparrot.LoginActivity" >
 
     <EditText
         android:id="@+id/enterUsername"
@@ -16,7 +16,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="62dp"
-        android:ems="10" >
+        android:ems="10"
+        android:hint="username" >
 
         <requestFocus />
     </EditText>
@@ -25,8 +26,8 @@
         android:id="@+id/usernameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/enterUsername"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
         android:text="Username:" />
 
@@ -47,6 +48,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="password"
         android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/bLogin"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enterPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/bCreateAccount"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Create Account" />
 
 </RelativeLayout>
