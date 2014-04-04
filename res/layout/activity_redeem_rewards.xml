@@ -8,6 +8,68 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cs160.surveyparrot.RedeemRewardsActivity" >
-    
+
+    <TextView
+        android:id="@+id/earnedRewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Your Earned Rewards"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Reward"
+        android:layout_alignBottom="@+id/Reward"
+        android:layout_alignRight="@+id/earnedRewards"
+        android:text="Amount"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/earnedRewards"
+        android:layout_below="@+id/earnedRewards"
+        android:layout_marginTop="24dp"
+        android:text="Reward"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rewardName1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Reward"
+        android:layout_below="@+id/Reward"
+        android:layout_marginTop="14dp"
+        android:textSize="19sp"
+        android:text="Amazon Gift Card" />
+
+    <TextView
+        android:id="@+id/amt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/rewardName1"
+        android:layout_alignBottom="@+id/rewardName1"
+        android:layout_alignRight="@+id/Amount"
+        android:textSize="19sp"
+        android:text="$10.00" />
+
+    <TextView
+        android:id="@+id/viewDetails1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rewardName1"
+        android:layout_below="@+id/rewardName1"
+        android:layout_marginTop="14dp"
+        android:textSize="18sp"
+        android:text="View Details" />
 
 </RelativeLayout>

@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-	private Button resumeButton, startButton, redeemButton;
+	private Button resumeButton, startButton, bRedeemRewards;
 	private boolean hasActiveSurvey; //true if the user quits while taking a survey
 	private String surveyName;
 	private int questionNumber;
@@ -30,8 +30,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		resumeButton.setOnClickListener(this);
 		startButton = (Button) findViewById(R.id.bStartSurvey);
 		startButton.setOnClickListener(this);
-		redeemButton = (Button) findViewById(R.id.bRedeemRewards);
-		redeemButton.setOnClickListener(this);
+		bRedeemRewards = (Button) findViewById(R.id.bRedeemRewards);
+		bRedeemRewards.setOnClickListener(this);
 		
 		if(!hasActiveSurvey){
 			resumeButton.setVisibility(View.GONE);
