@@ -9,49 +9,45 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ViewRewardDetailsActivity extends Activity implements OnClickListener  {
+public class RewardRedeemedActivity extends Activity implements OnClickListener  {
 	
 	Context context;
 	
-	TextView rewardName;
-	TextView amountValue;
-	TextView rewardDetails;
-	Button redeemButton;
 	Button backButton;
 	Button homeButton;
+
+	TextView lineName;
+	TextView lineAmt;
+	TextView lineInfo;
 	
 	String name;
 	String amt;
-	String details;
+	String info;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_reward_details);
+		setContentView(R.layout.activity_redeemed);
 		context = this;
 		
-		name = "Amazon Gift Card";
+		name = "Amazon gift card";
 		amt = "$20.00";
-		details = "Earned on 04/05/14 from Snacks Survey.";
+		info = "has been applied to your Amazon account.";
 		
-		rewardName = (TextView)findViewById(R.id.rewardName);
-		rewardName.setText(name);
+		lineName = (TextView)findViewById(R.id.lineName);
+		lineName.setText("Your " + name + " of");
 		
-		amountValue = (TextView)findViewById(R.id.amountValue);
-		amountValue.setText(amt);
+		lineAmt = (TextView)findViewById(R.id.lineAmt);
+		lineAmt.setText(amt);
 		
-		rewardDetails = (TextView)findViewById(R.id.rewardDetails);
-		rewardDetails.setText(details);
-		
-		redeemButton = (Button)findViewById(R.id.redeemButton);
-		redeemButton.setOnClickListener(this);
+		lineInfo = (TextView)findViewById(R.id.lineInfo);
+		lineInfo.setText(info);
 		
 		backButton = (Button)findViewById(R.id.backButton);
 		backButton.setOnClickListener(this);
 		
 		homeButton = (Button)findViewById(R.id.homeButton);
 		homeButton.setOnClickListener(this);
-
 	}
 
 	@Override
@@ -59,10 +55,6 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		// TODO Auto-generated method stub
 		
 		switch(arg0.getId()){
-		case R.id.redeemButton:
-			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
-	        startActivity(openRedeemed);
-			break;
 		case R.id.backButton:
 			Intent openRewards = new Intent(this, RedeemRewardsActivity.class);
 	        startActivity(openRewards);

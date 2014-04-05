@@ -9,12 +9,16 @@ import android.text.Spanned;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class RedeemRewardsActivity extends Activity implements OnClickListener {
 	
-	TextView details1;
+	
 	Context context;
+	
+	TextView details1;
+	Button redeemButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class RedeemRewardsActivity extends Activity implements OnClickListener {
 		details1 = (TextView)findViewById(R.id.viewDetails1);
 		makeTextViewHyperlink(details1);
 		details1.setOnClickListener(this);
+		
+		redeemButton = (Button)findViewById(R.id.redeemAll);
+		redeemButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -35,6 +42,10 @@ public class RedeemRewardsActivity extends Activity implements OnClickListener {
 		case R.id.viewDetails1:
 			Intent openDetails1 = new Intent(this, ViewRewardDetailsActivity.class);
 	        startActivity(openDetails1);
+			break;
+		case R.id.redeemAll:
+			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
+			startActivity(openRedeemed);
 			break;
 		}
 		
