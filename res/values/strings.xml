@@ -10,5 +10,7 @@
     <string name="question2">Rate from a scale of 1 to 5, with 5 being most frequent. How often do you eat snacks?</string>
     <string name="question3">Yes or no? Do you like potato chips?</string>
     <string name="title_activity_debug_voice">DebugVoiceActivity</string>
+    <string name="question1ChoiceA">A. Crunchy</string>
+    <string name="question1ChoiceB">B. Creamy</string>
 
 </resources>
