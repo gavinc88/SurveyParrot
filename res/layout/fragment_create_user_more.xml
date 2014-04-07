@@ -7,7 +7,73 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-
+        
+        <TextView
+            android:id="@+id/streetAddressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   Address" />
+        <EditText
+            android:id="@+id/streetAddressField"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Address" />
+        
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal" >
+            
+	        <EditText
+	            android:id="@+id/cityField"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:ems="10"
+	            android:hint="City" />
+	        <Spinner
+	            android:id="@+id/stateField"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+		        android:entries="@array/state_array"
+		        android:prompt="@string/state_prompt" />
+		</LinearLayout>
+	
+    <TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="" />
+        
+	<TextView
+		android:id="@+id/ethnicityLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="   Ethnicity" />
+	<EditText
+        android:id="@+id/ethnicityField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Ethnicity" />
+	
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="" />
+	
+	<TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="   Marital Status" />
+	<Spinner
+		android:id="@+id/maritalStatusField"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:entries="@array/marital_status_array"
+		android:prompt="@string/marital_status" />
         
     </LinearLayout>
 
