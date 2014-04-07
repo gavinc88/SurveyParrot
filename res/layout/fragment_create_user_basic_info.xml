@@ -22,10 +22,10 @@
             android:hint="(First Last)" />
 
         <TextView
-            android:id="@+id/tvAge"
+            android:id="@+id/tvOccupation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  Age" />
+            android:text="  Occupation" />
 
         <Spinner
             android:id="@+id/ageSpinner"
