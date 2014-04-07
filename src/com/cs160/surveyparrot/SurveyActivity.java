@@ -68,8 +68,14 @@ public class SurveyActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public void onBackPressed(){
-		super.onBackPressed();
-		saveSurvey();
+		questionNumber--;
+		if(questionNumber <= 0){
+			saveSurvey();
+			finish();
+		}else{
+			loadQuestion(questionNumber);
+		}
+		
 	}
 	
 	private void saveSurvey(){
@@ -78,7 +84,7 @@ public class SurveyActivity extends Activity implements OnClickListener {
 	
 	private void getSurveyQuestions(String surveyName){
 		questions = new ArrayList<Question>(3);
-		questions.add(new Question(getResources().getString(R.string.question1), Question.QUESTION_TYPE_MULTIPLE_CHOICE));
+		questions.add(new Question(getResources().getString(R.string.question1), Question.QUESTION_TYPE_MULTIPLE_CHOICE, 2));
 		questions.add(new Question(getResources().getString(R.string.question2), Question.QUESTION_TYPE_RATING));
 		questions.add(new Question(getResources().getString(R.string.question3), Question.QUESTION_TYPE_YES_NO));
 		progressbar.setMax(questions.size());
@@ -90,14 +96,27 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionMultipleChoiceFragment();
+			Bundle args = new Bundle();
+			args.putInt("questionNumber", questionNumber);
+			args.putString("question",questions.get(questionNumber-1).getQuestion());
+			args.putInt("numChoice", questions.get(questionNumber-1).getNumChoice());
+			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_RATING){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionRatingFragment();
+			Bundle args = new Bundle();
+			args.putInt("questionNumber", questionNumber);
+			args.putString("question",questions.get(questionNumber-1).getQuestion());
+			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_YES_NO){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionYesNoFragment();
+			Bundle args = new Bundle();
+			args.putInt("questionNumber", questionNumber);
+			args.putString("question",questions.get(questionNumber-1).getQuestion());
+			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}
 	}

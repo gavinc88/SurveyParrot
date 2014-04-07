@@ -9,10 +9,19 @@ public class Question {
 	
 	private String question;
 	private int type;
+	private int numChoice;
 	
 	public Question(String question, int type){
 		this.question = question;
 		this.type = type;
+		this.numChoice = 0;
+	}
+	
+	//constructor for multiple choice questions
+	public Question(String question, int type, int numChoice){
+		this.question = question;
+		this.type = type;
+		this.numChoice = numChoice;
 	}
 	
 	public String getQuestion(){
@@ -21,6 +30,10 @@ public class Question {
 	
 	public int getType(){
 		return type;
+	}
+	
+	public int getNumChoice(){
+		return numChoice;
 	}
 
 }
