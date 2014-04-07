@@ -9,6 +9,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SurveyActivity extends Activity implements OnClickListener {
+public class SurveyActivity extends Activity implements OnClickListener, RecognitionListener {
 
 	private Button stopButton, repeatButton, nextButton;
 	private ProgressBar progressbar;
@@ -31,12 +35,21 @@ public class SurveyActivity extends Activity implements OnClickListener {
 	private String surveyName;
 	private int questionNumber, tempQuestionNumber;
 	private ArrayList<Question> questions;
-	private Fragment questionFragment;
+	private SoundFragment questionFragment;
+    private SpeechRecognizer recog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
+
+		recog = SpeechRecognizer.createSpeechRecognizer(this);
+        recog.setRecognitionListener(this);
+        Intent recintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH); 
+        recintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,  RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        recintent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak!");
+        recintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.cs160.surveryparrot");
+        recog.startListening(recintent);
 		
 		stopButton = (Button) findViewById(R.id.bStop);
 		stopButton.setOnClickListener(this);
@@ -197,4 +210,40 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		}
 	}
 
+    @Override
+    public void onResults(Bundle results) {
+        Log.e("TAG","Recognize Results");
+        ArrayList<String> list = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        if (list.size() > 0) {
+            questionFragment.processWord(list.get(0));
+        }
+    }
+    @Override
+    public void onBeginningOfSpeech() {
+        Log.e("TAG","Recognize Begin Speech");
+    }
+    @Override
+    public void onEndOfSpeech() {
+        Log.e("TAG","Recognize End Speech");
+    }
+    @Override
+    public void onError(int arg0) {
+        Log.e("TAG","Recognize Error");
+    }
+    @Override
+    public void onReadyForSpeech(Bundle params) {
+        Log.e("TAG","Recognize Ready");
+    }
+    @Override
+    public void onBufferReceived(byte[] arg0) {
+    }
+    @Override
+    public void onEvent(int arg0, Bundle arg1) {
+    }
+    @Override
+    public void onPartialResults(Bundle partialResults) {
+    }
+    @Override
+    public void onRmsChanged(float rmsdB) {
+    }
 }

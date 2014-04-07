@@ -1,5 +1,7 @@
 package com.cs160.surveyparrot;
 
+import java.util.Locale;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuestionYesNoFragment extends Fragment {
+public class QuestionYesNoFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
 	private RadioGroup radioChoice; 
@@ -26,6 +28,20 @@ public class QuestionYesNoFragment extends Fragment {
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
         return rootview;
+    }
+
+    @Override
+    public void processWord(String in) {
+        int choice;
+        if (in.toLowerCase(Locale.US).equals("yes")) {
+            choice = 0;
+        } else if (in.toLowerCase(Locale.US).equals("no")) {
+            choice = 1;
+        } else {
+            return;
+        }
+        radioChoice.check(choice);
+        ((SurveyActivity) getActivity()).getNextQuestion();
     }
 
 }

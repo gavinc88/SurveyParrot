@@ -9,10 +9,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuestionMultipleChoiceFragment extends Fragment {
+public class QuestionMultipleChoiceFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
-	private RadioGroup radioChoice; 
+	private RadioGroup radioChoice;
+	private int numChoices;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,8 +27,12 @@ public class QuestionMultipleChoiceFragment extends Fragment {
         Bundle args = getArguments();
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
-        int numChoices = args.getInt("numChoice");
+        numChoices = args.getInt("numChoice");
         return rootview;
+    }
+
+    @Override
+    public void processWord(String in) {
     }
 
 }
