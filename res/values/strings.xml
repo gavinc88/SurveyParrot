@@ -11,12 +11,11 @@
     <string name="question1">How do you like your peanut butter?</string>
     <string name="question2">How often do you eat snacks?</string>
     <string name="question3">Yes or no? Do you like potato chips?</string>
-    
     <string name="title_activity_debug_voice">DebugVoiceActivity</string>
     <string name="question1ChoiceA">A. Crunchy</string>
     <string name="question1ChoiceB">B. Creamy</string>
-    
     <string name="state_prompt">State</string>
+
     <string-array name="state_array">
         <item>AL</item>
         <item>AK</item>
@@ -69,12 +68,16 @@
         <item>WI</item>
         <item>WY</item>
     </string-array>
-    
+
     <string name="marital_status">Marital Status</string>
+
     <string-array name="marital_status_array">
         <item>Single</item>
         <item>Married</item>
         <item>Other</item>
     </string-array>
+
+    <string name="title_activity_create_user_account_complete_fragment">CreateUserAccountCompleteFragment</string>
+    <string name="createAccount_complete">You have successfully created an account with SurveyParrot!</string>
 
 </resources>

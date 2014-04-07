@@ -5,12 +5,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CreateUserActivity extends Activity implements OnClickListener {
 
@@ -44,7 +46,7 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.bNext:
 			
-			if (step == 3) {
+			if (step == 4 ) {
 				Intent openMainActivity = new Intent(this, MainActivity.class);
 		        startActivity(openMainActivity);
 			}
@@ -78,11 +80,17 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			createUserFragment = new CreateUserBasicInfoFragment();
 			ft.replace(R.id.createUserFragment, createUserFragment).commit();
-		}else if(step >= 3){
+		}else if(step == 3){
 			progressMessage.setText("Step 3 of 3");
 			progressbar.setProgress(3);
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			createUserFragment = new CreateUserMoreFragment();
+			ft.replace(R.id.createUserFragment, createUserFragment).commit();
+		
+		} else if (step > 3) {
+			progressMessage.setText("");
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			createUserFragment = new CreateUserAccountCompleteFragment();
 			ft.replace(R.id.createUserFragment, createUserFragment).commit();
 		}
 	}

@@ -30,9 +30,9 @@ public class RewardRedeemedActivity extends Activity implements OnClickListener 
 		setContentView(R.layout.activity_redeemed);
 		context = this;
 		
-		name = "Amazon gift card";
-		amt = "$20.00";
-		info = "has been applied to your Amazon account.";
+		name = " Amazon gift card";
+		amt = "$10.00";
+		info = "Was added to your account.";
 		
 		lineName = (TextView)findViewById(R.id.lineName);
 		lineName.setText("Your " + name + " of");
