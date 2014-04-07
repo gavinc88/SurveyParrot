@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent redeemRewards = new Intent(this, RedeemRewardsActivity.class);
 	        startActivity(redeemRewards);
 			break;
-		}		
+		}
 	}
 	
 	private void getResumableSurvey(){

@@ -3,16 +3,24 @@ package com.cs160.surveyparrot;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class SurveyActivity extends Activity implements OnClickListener {
@@ -21,7 +29,7 @@ public class SurveyActivity extends Activity implements OnClickListener {
 	private ProgressBar progressbar;
 	private TextView progressMessage;
 	private String surveyName;
-	private int questionNumber;
+	private int questionNumber, tempQuestionNumber;
 	private ArrayList<Question> questions;
 	private Fragment questionFragment;
 	
@@ -60,7 +68,12 @@ public class SurveyActivity extends Activity implements OnClickListener {
 			System.out.println("repeat pressed");
 			break;
 		case R.id.bNext:
-			getNextQuestion();
+			if(questionNumber > questions.size()){
+				Intent findNewSurvey = new Intent(this, ChooseSurveyActivity.class);
+		        startActivity(findNewSurvey);
+			}else{
+				getNextQuestion();
+			}
 			break;
 		}		
 	}
@@ -74,7 +87,57 @@ public class SurveyActivity extends Activity implements OnClickListener {
 		}else{
 			loadQuestion(questionNumber);
 		}
-		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.survey_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.action_jump){
+			final Dialog dialog = new Dialog(this);
+			dialog.setContentView(R.layout.dialog_dropdown);
+			dialog.setTitle("Choose Question:");
+ 
+			// set the custom dialog components - spinner and button
+			Spinner spinner = (Spinner) dialog.findViewById(R.id.questionSpinner);
+			String[] array_spinner = new String[questionNumber];
+			for(int i = 0; i < questionNumber; i++){
+				array_spinner[i] = (i + 1) + "";
+			}
+	        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array_spinner);
+	        spinner.setAdapter(adapter);
+	        spinner.setSelection(questionNumber-1);
+	        spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					tempQuestionNumber = position + 1;					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					tempQuestionNumber = questionNumber;
+				}
+	        });
+ 
+			Button confirmButton = (Button) dialog.findViewById(R.id.bJump);
+			confirmButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					questionNumber = tempQuestionNumber;
+					loadQuestion(questionNumber);
+					dialog.dismiss();
+				}
+			});
+ 
+			dialog.show();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void saveSurvey(){
