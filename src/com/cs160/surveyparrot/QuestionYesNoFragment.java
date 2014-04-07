@@ -4,13 +4,15 @@ import java.util.Locale;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuestionYesNoFragment extends SoundFragment {
+public class QuestionYesNoFragment extends SoundFragment implements OnInitListener {
 	
 	private TextView question, questionNumber;
 	private RadioGroup radioChoice; 
@@ -27,6 +29,10 @@ public class QuestionYesNoFragment extends SoundFragment {
         Bundle args = getArguments();
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
+
+        TextToSpeech tts = new TextToSpeech(getActivity(), this);
+        tts.speak("Yes or no? Do you like potato chips?", TextToSpeech.QUEUE_ADD, null);
+
         return rootview;
     }
 
@@ -42,6 +48,10 @@ public class QuestionYesNoFragment extends SoundFragment {
         }
         radioChoice.check(choice);
         ((SurveyActivity) getActivity()).getNextQuestion();
+    }
+
+    @Override
+    public void onInit(int status) {
     }
 
 }

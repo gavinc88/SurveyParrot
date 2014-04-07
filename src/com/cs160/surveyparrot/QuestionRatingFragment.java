@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class QuestionRatingFragment extends SoundFragment {
+public class QuestionRatingFragment extends SoundFragment implements OnInitListener {
 	
 	private TextView question, questionNumber;
 	private RatingBar rating;
@@ -28,6 +30,10 @@ public class QuestionRatingFragment extends SoundFragment {
         Bundle args = getArguments();
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
+
+        TextToSpeech tts = new TextToSpeech(getActivity(), this);
+        tts.speak("Rate from a scale of 1 to 5, with 5 being most frequent. How often do you eat snacks?", TextToSpeech.QUEUE_ADD, null);
+
         return rootview;
     }
 
@@ -49,6 +55,10 @@ public class QuestionRatingFragment extends SoundFragment {
         }
         rating.setNumStars(rate);
         ((SurveyActivity) getActivity()).getNextQuestion();
+    }
+
+    @Override
+    public void onInit(int status) {
     }
 
 }
