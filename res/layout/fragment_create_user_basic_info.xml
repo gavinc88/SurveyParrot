@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:text="  Email" />
 
-        <Spinner
-            android:id="@+id/ageSpinner"
+        <EditText
+            android:id="@+id/emailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
