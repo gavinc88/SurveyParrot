@@ -43,11 +43,7 @@ public class RewardRedeemedActivity extends Activity implements OnClickListener 
 		lineInfo = (TextView)findViewById(R.id.lineInfo);
 		lineInfo.setText(info);
 		
-		backButton = (Button)findViewById(R.id.backButton);
-		backButton.setOnClickListener(this);
-		
-		homeButton = (Button)findViewById(R.id.homeButton);
-		homeButton.setOnClickListener(this);
+
 	}
 
 	@Override
@@ -55,14 +51,7 @@ public class RewardRedeemedActivity extends Activity implements OnClickListener 
 		// TODO Auto-generated method stub
 		
 		switch(arg0.getId()){
-		case R.id.backButton:
-			Intent openRewards = new Intent(this, RedeemRewardsActivity.class);
-	        startActivity(openRewards);
-			break;
-		case R.id.homeButton:
-			Intent openHome = new Intent(this, MainActivity.class);
-	        startActivity(openHome);
-			break;
+
 		}
 		
 	}

@@ -46,11 +46,6 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		redeemButton = (Button)findViewById(R.id.redeemButton);
 		redeemButton.setOnClickListener(this);
 		
-		backButton = (Button)findViewById(R.id.backButton);
-		backButton.setOnClickListener(this);
-		
-		homeButton = (Button)findViewById(R.id.homeButton);
-		homeButton.setOnClickListener(this);
 
 	}
 
@@ -62,14 +57,6 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		case R.id.redeemButton:
 			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
 	        startActivity(openRedeemed);
-			break;
-		case R.id.backButton:
-			Intent openRewards = new Intent(this, RedeemRewardsActivity.class);
-	        startActivity(openRewards);
-			break;
-		case R.id.homeButton:
-			Intent openHome = new Intent(this, MainActivity.class);
-	        startActivity(openHome);
 			break;
 		}
 		
