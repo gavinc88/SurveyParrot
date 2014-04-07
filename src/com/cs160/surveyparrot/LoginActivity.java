@@ -31,7 +31,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	        startActivity(openMainActivity);
 			break;
 		case R.id.bCreateAccount:
-			Intent createAccount = new Intent(this, CreateAccountActivity.class);
+			Intent createAccount = new Intent(this, CreateUserActivity.class);
 	        startActivity(createAccount);
 			break;
 		}		

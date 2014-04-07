@@ -18,7 +18,6 @@ import android.widget.TextView;
 public class SurveyActivity extends Activity implements OnClickListener {
 
 	private Button stopButton, repeatButton, nextButton;
-	private FrameLayout fragmentFrame;
 	private ProgressBar progressbar;
 	private TextView progressMessage;
 	private String surveyName;
