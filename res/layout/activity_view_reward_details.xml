@@ -21,22 +21,42 @@
         />
 
     <TextView
+        android:id="@+id/amountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/rewardName"
+        android:layout_marginTop="30dp"
+        android:text="Amount:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/amountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/amountLabel"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/amountLabel"
+        android:text="$10.00"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
         android:id="@+id/detailsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/amountLabel"
-        android:layout_below="@+id/amountLabel"
-        android:layout_marginTop="32dp"
-        android:text="Details:" 
-        android:textSize="16sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/amountLabel"
+        android:layout_marginTop="20dp"
+        android:text="Details:"
+        android:textAppearance="?android:attr/textAppearanceMedium"  />
 
     <TextView
         android:id="@+id/rewardDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/detailsLabel"
-        android:layout_below="@+id/detailsLabel"
-        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@id/amountValue"
+        android:layout_alignTop="@id/detailsLabel"
+        android:layout_toRightOf="@id/detailsLabel"
         android:text="Earned on 03/07/14 from Snacks Survey."
         android:textSize="16sp" />
 
@@ -48,24 +68,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="Redeem" />
-
-    <TextView
-        android:id="@+id/amountLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rewardName"
-        android:layout_marginTop="32dp"
-        android:layout_toLeftOf="@+id/rewardName"
-        android:text="Amount:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/amountValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/detailsLabel"
-        android:layout_alignLeft="@+id/redeemButton"
-        android:text="$10.00"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
