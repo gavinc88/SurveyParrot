@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight=".3"
+        android:layout_weight=".2"
         android:orientation="horizontal">
 	    
 	    <TextView
@@ -30,39 +30,52 @@
 
     <ImageView
         android:id="@+id/parrotImage"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5.7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.4"
         android:adjustViewBounds="true"
         android:src="@drawable/survey_parrot_big_square" />
     
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="4.7" >
         
 	    <Button
 	        android:id="@+id/bStartSurvey"
+	        style="@style/buttonTheme"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-        	android:layout_centerVertical="true"
 	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginBottom="10dp"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginRight="20dp"
+	        android:layout_marginTop="10dp"
 	        android:text="Start New Survey" />
 	    
 	    <Button
 	        android:id="@+id/bResumeSurvey"
+	        style="@style/buttonTheme"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-        	android:layout_above="@id/bStartSurvey"
-        	android:layout_gravity="bottom"
+	        android:layout_above="@id/bStartSurvey"
+	        android:layout_gravity="bottom"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginRight="20dp"
 	        android:text="Resume Survey" />
 	    
 	    <Button
 	        android:id="@+id/bRedeemRewards"
+	        style="@style/buttonTheme"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-        	android:layout_below="@id/bStartSurvey"
+	        android:layout_below="@id/bStartSurvey"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginRight="20dp"
 	        android:text="Redeem Rewards" />
+
     </RelativeLayout>
 
 </LinearLayout>
