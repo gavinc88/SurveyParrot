@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -25,6 +26,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		context = this;
 		
 		getResumableSurvey();
+		
+		Bundle extras = getIntent().getExtras();
+		TextView welcomeUser = (TextView)findViewById(R.id.welcomeUser);
+		welcomeUser.setText("Welcome, " + extras.getString("username") + "!");
 		
 		resumeButton = (Button) findViewById(R.id.bResumeSurvey);
 		resumeButton.setOnClickListener(this);
