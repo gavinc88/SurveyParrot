@@ -57,6 +57,7 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		case R.id.redeemButton:
 			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
 	        startActivity(openRedeemed);
+	        finish();
 			break;
 		}
 		
