@@ -42,6 +42,7 @@
 
     <Button
         android:id="@+id/bLogin"
+        style="@style/buttonTheme"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/enterPassword"
@@ -49,12 +50,12 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@color/red"
         android:text="Login"
         android:textColor="@color/white" />
 
     <Button
         android:id="@+id/bCreateAccount"
+        style="@style/buttonTheme"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/bLogin"
@@ -62,7 +63,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:background="@color/red"
         android:text="Create Account"
         android:textColor="@color/white" />
 

@@ -42,22 +42,31 @@
 
         <Button
             android:id="@+id/bStop"
+            style="@style/buttonTheme"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="Stop" />
 
         <Button
             android:id="@+id/bRepeat"
+            style="@style/buttonTheme"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="Repeat" />
 
         <Button
             android:id="@+id/bNext"
+            style="@style/buttonTheme"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="Next" />
 

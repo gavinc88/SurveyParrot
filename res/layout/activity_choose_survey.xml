@@ -47,6 +47,7 @@
 
         <Button
             android:id="@+id/bNo"
+            style="@style/buttonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -56,6 +57,7 @@
 
         <Button
             android:id="@+id/bYes"
+            style="@style/buttonTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
