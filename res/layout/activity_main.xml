@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -7,33 +7,47 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs160.surveyparrot.MainActivity" >
+    tools:context="com.cs160.surveyparrot.MainActivity"
+    android:orientation="vertical"
+    android:weightSum="10" >
 
-    <Button
-        android:id="@+id/bResumeSurvey"
-        android:layout_width="200dp"
+    <ImageView
+        android:id="@+id/parrotImage"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_launcher"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="Resume Survey" />
-
-    <Button
-        android:id="@+id/bStartSurvey"
-        android:layout_width="200dp"
+        android:layout_weight="7" />
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bResumeSurvey"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Start New Survey" />
+        android:orientation="vertical"
+        android:layout_weight="3" >
+        
+        <Button
+	        android:id="@+id/bResumeSurvey"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_gravity="center"
+	        android:text="Resume Survey" />
+        
+	    <Button
+	        android:id="@+id/bStartSurvey"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:text="Start New Survey" />
+	    
+	    <Button
+	        android:id="@+id/bRedeemRewards"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:text="Redeem Rewards" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/bRedeemRewards"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bStartSurvey"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Redeem Rewards" />
-
-</RelativeLayout>
+</LinearLayout>
