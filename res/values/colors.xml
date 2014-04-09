@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#e45959</color>
+    <color name="red_pressed">#ff833333</color>
+    <color name="facebook_blue">#4C66A4</color>
+    <color name="facebook_blue_pressed">#284074</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_grey">#DDDDDD</color>
+    <color name="orange">#FF8000</color>
+    <color name="green">#088A08</color>
+    <color name="light_yellow">#F3F781</color>
+    <color name="light_orange">#FE9A2E</color>
+    
+
+
+</resources>

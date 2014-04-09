@@ -46,6 +46,7 @@ public class RedeemRewardsActivity extends Activity implements OnClickListener {
 		case R.id.redeemAll:
 			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
 			startActivity(openRedeemed);
+			finish();
 			break;
 		}
 		

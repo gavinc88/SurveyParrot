@@ -115,16 +115,24 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.dialog_dropdown);
 			dialog.setTitle("Choose Question:");
- 
+			
+			int count;
+			if(questionNumber > questions.size()){
+				count = questions.size();
+			}else{
+				count = questionNumber;
+			}
+			final int c = count;
+			
 			// set the custom dialog components - spinner and button
 			Spinner spinner = (Spinner) dialog.findViewById(R.id.questionSpinner);
-			String[] array_spinner = new String[questionNumber];
-			for(int i = 0; i < questionNumber; i++){
+			String[] array_spinner = new String[c];
+			for(int i = 0; i < c; i++){
 				array_spinner[i] = (i + 1) + "";
 			}
 	        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array_spinner);
 	        spinner.setAdapter(adapter);
-	        spinner.setSelection(questionNumber-1);
+	        spinner.setSelection(c-1);
 	        spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

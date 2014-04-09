@@ -9,12 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class RewardRedeemedActivity extends Activity implements OnClickListener  {
+public class RewardRedeemedActivity extends Activity {
 	
 	Context context;
-	
-	Button backButton;
-	Button homeButton;
 
 	TextView lineName;
 	TextView lineAmt;
@@ -42,18 +39,15 @@ public class RewardRedeemedActivity extends Activity implements OnClickListener 
 		
 		lineInfo = (TextView)findViewById(R.id.lineInfo);
 		lineInfo.setText(info);
-		
-
 	}
-
+	
 	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		
-		switch(arg0.getId()){
-
-		}
-		
+	public void onBackPressed(){
+		super.onBackPressed();
+//		Intent openMainActivity = new Intent(this, MainActivity.class);
+//		openMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		openMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(openMainActivity);
 	}
 
 }
