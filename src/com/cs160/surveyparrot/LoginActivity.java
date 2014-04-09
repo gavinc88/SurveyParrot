@@ -31,7 +31,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch(v.getId()){
 		case R.id.bLogin:
 			Intent openMainActivity = new Intent(this, MainActivity.class);
-			openMainActivity.putExtra("username", usernameField.getText().toString());
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+			app.username = usernameField.getText().toString();
 	        startActivity(openMainActivity);
 			break;
 		case R.id.bCreateAccount:

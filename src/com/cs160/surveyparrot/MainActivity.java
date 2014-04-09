@@ -26,10 +26,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		context = this;
 		
 		getResumableSurvey();
+		SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+		String username = app.username;
 		
-		Bundle extras = getIntent().getExtras();
 		TextView welcomeUser = (TextView)findViewById(R.id.welcomeUser);
-		welcomeUser.setText("Welcome, " + extras.getString("username") + "!");
+		welcomeUser.setText("Welcome, " + username + "!");
 		
 		resumeButton = (Button) findViewById(R.id.bResumeSurvey);
 		resumeButton.setOnClickListener(this);
