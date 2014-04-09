@@ -5,14 +5,12 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CreateUserActivity extends Activity implements OnClickListener {
 
@@ -44,14 +42,16 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 			Intent openLoginActivity = new Intent(this, LoginActivity.class);
 	        startActivity(openLoginActivity);
 			break;
-		case R.id.bNext:			
-			if (step == 4 ) {
+		case R.id.bNext:
+			if (step == 1) {
+				EditText usernameField = (EditText)findViewById(R.id.username);
+				SurveyParrotApplication.username = usernameField.getText().toString();
+			} else if (step == 4 ) {
 				Intent openMainActivity = new Intent(this, MainActivity.class);
 		        startActivity(openMainActivity);
-			}else{
-				step++;
-				loadStep(step);
-			}
+			}		
+			step++;
+			loadStep(step);
 			break;
 		}		
 	}
