@@ -1,16 +1,17 @@
 package com.cs160.surveyparrot;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
 	private Button loginButton, createAccountButton;
+	private EditText usernameField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		loginButton.setOnClickListener(this);
 		createAccountButton = (Button) findViewById(R.id.bCreateAccount);
 		createAccountButton.setOnClickListener(this);
+		
+		usernameField = (EditText)findViewById(R.id.enterUsername);
 	}
 	
 	@Override
@@ -28,6 +31,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch(v.getId()){
 		case R.id.bLogin:
 			Intent openMainActivity = new Intent(this, MainActivity.class);
+			openMainActivity.putExtra("username", usernameField.getText().toString());
 	        startActivity(openMainActivity);
 			break;
 		case R.id.bCreateAccount:
