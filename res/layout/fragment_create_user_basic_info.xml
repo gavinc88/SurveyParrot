@@ -55,13 +55,23 @@
             android:layout_height="wrap_content"
             android:text="  Birthday" />
 
-        <DatePicker
-            android:id="@+id/datePicker1"
+        <TextView
+            android:id="@+id/birthday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:calendarViewShown="false" 
-            android:endYear="2014"
-            android:startYear="1900" />
+            android:layout_gravity="center"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/bChooseDate"
+            style="@style/buttonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Pick Date" />
         
     </LinearLayout>
 
