@@ -74,11 +74,14 @@
 
     <Button
         android:id="@+id/redeemAll"
+        style="@style/buttonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewDetails1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Redeem All" />
 
 </RelativeLayout>

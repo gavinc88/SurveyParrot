@@ -44,13 +44,11 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 			Intent openLoginActivity = new Intent(this, LoginActivity.class);
 	        startActivity(openLoginActivity);
 			break;
-		case R.id.bNext:
-			
+		case R.id.bNext:			
 			if (step == 4 ) {
 				Intent openMainActivity = new Intent(this, MainActivity.class);
 		        startActivity(openMainActivity);
-			}
-			
+			}			
 			step++;
 			loadStep(step);
 			break;
