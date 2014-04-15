@@ -10,11 +10,13 @@ public class Question {
 	private String question;
 	private int type;
 	private int numChoice;
+	private String[] answers;
 	
 	public Question(String question, int type){
 		this.question = question;
 		this.type = type;
 		this.numChoice = 0;
+		this.answers = null;
 	}
 	
 	//constructor for multiple choice questions
@@ -22,6 +24,7 @@ public class Question {
 		this.question = question;
 		this.type = type;
 		this.numChoice = numChoice;
+		this.answers = new String[numChoice];
 	}
 	
 	public String getQuestion(){
@@ -34,6 +37,24 @@ public class Question {
 	
 	public int getNumChoice(){
 		return numChoice;
+	}
+	
+	public void addAnswer(int num, String answer){
+		if(num <= numChoice){	
+			this.answers[num-1] = answer;
+		}else{
+			System.out.println("can't add answer "+ num);
+		}
+	}
+	
+	public String getAnswer(int num){
+		if(num <= numChoice){	
+			return answers[num-1];
+		}else{
+			System.out.println("can't find answer "+ num);
+			return "";
+		}
+		
 	}
 
 }
