@@ -79,16 +79,19 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		switch(v.getId()){
 		case R.id.bStop:
 			saveSurvey();
+			stopTTS();
 			Intent openMainActivity = new Intent(this, MainActivity.class);
 	        startActivity(openMainActivity);
+	        finish();
 			break;
 		case R.id.bRepeat:
-			System.out.println("repeat pressed");
+			readQuestion(questionNumber);
 			break;
 		case R.id.bNext:
 			if(questionNumber > questions.size()){
 				Intent findNewSurvey = new Intent(this, ChooseSurveyActivity.class);
 		        startActivity(findNewSurvey);
+		        finish();
 			}else{
 				getNextQuestion();
 			}
@@ -101,6 +104,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questionNumber--;
 		if(questionNumber <= 0){
 			saveSurvey();
+			stopTTS();
 			finish();
 		}else{
 			loadQuestion(questionNumber);
@@ -120,15 +124,13 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.dialog_dropdown);
 			dialog.setTitle("Choose Question:");
-			
 			int count;
 			if(questionNumber > questions.size()){
 				count = questions.size();
 			}else{
 				count = questionNumber;
 			}
-			final int c = count;
-			
+			final int c = count;			
 			// set the custom dialog components - spinner and button
 			Spinner spinner = (Spinner) dialog.findViewById(R.id.questionSpinner);
 			String[] array_spinner = new String[c];
@@ -159,8 +161,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 					dialog.dismiss();
 				}
 			});
- 
-			dialog.show();
+ 			dialog.show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -243,6 +244,13 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
         	System.out.println("Initilization Failed!");
         }
 	}
+	
+    public void stopTTS(){
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+    }
 	
 	public void readQuestion(int questionNumber){
 		if(questionNumber <= questions.size()){
