@@ -1,19 +1,24 @@
 package com.cs160.surveyparrot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class SurveyActivity extends Activity implements OnClickListener, RecognitionListener, TextToSpeech.OnInitListener {
 
 	private Button stopButton, repeatButton, nextButton;
@@ -38,21 +44,22 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	private int questionNumber, tempQuestionNumber;
 	private ArrayList<Question> questions;
 	private SoundFragment questionFragment;
-    private SpeechRecognizer recog;
+	private SpeechRecognizer sr;
     private TextToSpeech tts;
-	
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
 
-		recog = SpeechRecognizer.createSpeechRecognizer(this);
-        recog.setRecognitionListener(this);
-        Intent recintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH); 
-        recintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,  RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recintent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak!");
-        recintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.cs160.surveryparrot");
-        recog.startListening(recintent);
+		sr = SpeechRecognizer.createSpeechRecognizer(this);
+		sr.setRecognitionListener(this);
+		
+//        Intent recintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH); 
+//        recintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,  RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//        recintent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak!");
+//        recintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.cs160.surveryparrot");
+//        recog.startListening(recintent);
 		        
 		stopButton = (Button) findViewById(R.id.bStop);
 		stopButton.setOnClickListener(this);
@@ -70,7 +77,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		getSurveyQuestions(surveyName); //make server call to get survey info
 
 		tts = new TextToSpeech(this, this);
-		
+				
 		loadQuestion(questionNumber);
 	}
 	
@@ -108,6 +115,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			finish();
 		}else{
 			loadQuestion(questionNumber);
+			repeatButton.setVisibility(View.VISIBLE);
 		}
 	}
 	
@@ -152,7 +160,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				}
 	        });
  
-			Button confirmButton = (Button) dialog.findViewById(R.id.bJump);
+			Button confirmButton = (Button) dialog.findViewById(R.id.bConfirm);
 			confirmButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -230,16 +238,52 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onInit(int status) {
 		System.out.println("initializeing tts");
-		if (status == TextToSpeech.SUCCESS) {			 
-            int result = tts.setLanguage(Locale.US);
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                System.out.println("This Language is not supported");
-            } else {
-            	readQuestion(questionNumber);
-            } 
+		if (status == TextToSpeech.SUCCESS) {
+			if (Build.VERSION.SDK_INT >= 15) {
+				System.out.println("set utternace progress listener");
+				tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+					@Override
+					public void onDone(String utteranceId) {
+						System.out.println("utterance progress onDone");
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								listen();
+							}
+						});
+					}
+
+					@Override
+					public void onError(String utteranceId) {
+						System.out.println("utterance progress onError");
+					}
+
+					@Override
+					public void onStart(String utteranceId) {
+						System.out.println("utterance progres onStart");
+					}
+				});
+			} else {
+				System.out.println("set utternace completed listener");
+				tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
+					@Override
+					public void onUtteranceCompleted(String utteranceId) {
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								listen();
+							}
+						});
+					}
+				});
+			}
+            tts.setLanguage(Locale.US);
+            tts.setPitch(1.0f);
+            readQuestion(questionNumber);
         } else {
         	System.out.println("Initilization Failed!");
         }
@@ -258,31 +302,55 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			String qNumber = "Question number " + questionNumber;
 			String question = questions.get(questionNumber-1).getQuestion();
 			System.out.println("speaking: " + qNumber + ": " + question);
+			
+			HashMap<String, String> hashTts = new HashMap<String, String>();
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+			
 			if(q.getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
 				tts.speak(question, TextToSpeech.QUEUE_ADD, null);
 				for(int i = 1; i <= q.getNumChoice(); i++){
-					tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, null);
+					if(i == q.getNumChoice()){
+						tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, hashTts);
+					}else{
+						tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, null);
+					}
 				}
-			}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_RATING){
+			}else if(q.getType() == Question.QUESTION_TYPE_RATING){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
 				tts.speak(getResources().getString(R.string.rating_instruction), TextToSpeech.QUEUE_ADD, null);
-				tts.speak(question, TextToSpeech.QUEUE_ADD, null);
-			}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_YES_NO){
+				tts.speak(question, TextToSpeech.QUEUE_ADD, hashTts);
+			}else if(q.getType() == Question.QUESTION_TYPE_YES_NO){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
-				tts.speak(question, TextToSpeech.QUEUE_ADD, null);
-			}			
+				tts.speak(question, TextToSpeech.QUEUE_ADD, hashTts);
+			}
 		}else{
 			System.out.println("No questions");
 		}
 	}
+	
+	public void listen(){
+		System.out.println("listening...");
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.cs160.surveyparrot");
+		//intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+		sr.startListening(intent);
+	}
 
     @Override
     public void onResults(Bundle results) {
-        Log.e("TAG","Recognize Results");
-        ArrayList<String> list = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        if (list.size() > 0) {
-            questionFragment.processWord(list.get(0));
+        String str = new String();
+		System.out.println("onResults " + results);
+		ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+		for (int i = 0; i < data.size(); i++) {
+			System.out.println("result "+ (i+1) + ": " + data.get(i));
+			str += data.get(i) + ",";
+		}
+        if (data.size() > 0) {
+            //questionFragment.processWord(str.substring(0,str.length()-1));
+            questionFragment.processWord(data.get(0));
         }
     }
     @Override
@@ -294,24 +362,31 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
         Log.e("TAG","Recognize End Speech");
     }
     @Override
-    public void onError(int arg0) {
+    public void onError(int error) {
         Log.e("TAG","Recognize Error");
+        System.out.println("error " + error);
     }
     @Override
     public void onReadyForSpeech(Bundle params) {
         Log.e("TAG","Recognize Ready");
     }
     @Override
-    public void onBufferReceived(byte[] arg0) {
-    }
+    public void onBufferReceived(byte[] arg0) {}
     @Override
-    public void onEvent(int arg0, Bundle arg1) {
-    }
+    public void onEvent(int arg0, Bundle arg1) {}
     @Override
-    public void onPartialResults(Bundle partialResults) {
-    }
+    public void onPartialResults(Bundle partialResults) {}
     @Override
-    public void onRmsChanged(float rmsdB) {
+    public void onRmsChanged(float rmsdB) {}
+    
+	@Override
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
 
 }

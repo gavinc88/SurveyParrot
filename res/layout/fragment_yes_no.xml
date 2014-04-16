@@ -29,13 +29,13 @@
             android:id="@+id/yes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="Yes" />
 
         <RadioButton
             android:id="@+id/no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:text="No" />
     </RadioGroup>
 
