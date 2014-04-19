@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.os.Bundle;
-import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,21 +56,40 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
     @Override
     public boolean processWord(String in) {
     	System.out.println("processing "+ in);
-    	int letter;
+    	int choice = -1;
         if (in.toUpperCase(Locale.US).equals("A")) {
-            letter = R.id.radioButton1;
+            choice = 0;
         } else if (in.toUpperCase(Locale.US).equals("B")) {
-            letter = R.id.radioButton2;
+            choice = 1;
         } else if (in.toUpperCase(Locale.US).equals("C") && numChoices >= 3) {
-            letter = R.id.radioButton3;
+            choice = 2;
         } else if (in.toUpperCase(Locale.US).equals("D") && numChoices >= 4) {
-            letter = R.id.radioButton4;
+            choice = 3;
         } else if (in.toUpperCase(Locale.US).equals("E") && numChoices >= 5) {
-            letter = R.id.radioButton5;
+            choice = 4;
         } else {
-        	return false;
+            ArrayList<String[]> listOfWords= new ArrayList<String[]>(numChoices);
+            // Populate list of words
+            for (int i = 0; i < numChoices; i += 1) {
+                listOfWords.set(i, choices[i].getText().toString().split("\\W+"));
+                // Search for matches
+                for (String[] words : listOfWords) {
+                    for (String word : words) {
+                        if (word.equals(in)) { // Match
+                            if (choice != -1) { // Redundant match
+                                return false;
+                            }
+                            choice = i;
+                            break; // Move on to words for next choice
+                        }
+                    }
+                }
+            }
+            if (choice == -1) {
+                return false;
+            }
         }
-        radioChoice.check(letter);
+        radioChoice.check(choices[choice].getId());
         radioChoice.postDelayed(new Runnable(){
 			@Override
 			public void run() {
