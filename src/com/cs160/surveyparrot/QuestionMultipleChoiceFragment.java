@@ -21,7 +21,6 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
 	private RadioButton a,b,c,d,e;
 	private RadioButton[] choices;
 	private int numChoices;
-	private TextToSpeech tts;
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,16 +52,11 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
         for(int i = numChoices; i < 5; i++){
         	choices[i].setVisibility(View.GONE);
         }
-        
-
-        //tts = new TextToSpeech(getActivity(), this);
-        //tts.speak("How do you like your peanut butter?", TextToSpeech.QUEUE_ADD, null);
-
         return rootview;
     }
 
     @Override
-    public void processWord(String in) {
+    public boolean processWord(String in) {
     	System.out.println("processing "+ in);
     	int letter;
         if (in.toUpperCase(Locale.US).equals("A")) {
@@ -76,7 +70,7 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
         } else if (in.toUpperCase(Locale.US).equals("E") && numChoices >= 5) {
             letter = R.id.radioButton5;
         } else {
-        	return;
+        	return false;
         }
         radioChoice.check(letter);
         radioChoice.postDelayed(new Runnable(){
@@ -85,7 +79,7 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
 				((SurveyActivity) getActivity()).getNextQuestion();
 			}        	
         }, 1500);
-    	//((SurveyActivity) getActivity()).getNextQuestion();
+        return true;
     }
 
     @Override

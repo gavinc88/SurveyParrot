@@ -4,5 +4,6 @@ import android.app.Fragment;
 import android.speech.RecognitionListener;
 
 abstract class SoundFragment extends Fragment {
-    public abstract void processWord(String in);
+    /** Return TRUE if word was parsed and consumed. */
+    public abstract boolean processWord(String in);
 }

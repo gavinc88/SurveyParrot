@@ -31,15 +31,11 @@ public class QuestionYesNoFragment extends SoundFragment implements OnInitListen
         Bundle args = getArguments();
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
-
-        //TextToSpeech tts = new TextToSpeech(getActivity(), this);
-        //tts.speak("Yes or no? Do you like potato chips?", TextToSpeech.QUEUE_ADD, null);
-
         return rootview;
     }
 
     @Override
-    public void processWord(String in) {
+    public boolean processWord(String in) {
     	System.out.println("processing "+ in);
         int choice;
         if (in.toLowerCase(Locale.US).equals("yes")) {
@@ -47,7 +43,7 @@ public class QuestionYesNoFragment extends SoundFragment implements OnInitListen
         } else if (in.toLowerCase(Locale.US).equals("no")) {
             choice = R.id.no;
         } else {
-            return;
+            return false;
         }
         radioChoice.check(choice);
         radioChoice.postDelayed(new Runnable(){
@@ -55,8 +51,8 @@ public class QuestionYesNoFragment extends SoundFragment implements OnInitListen
 			public void run() {
 				((SurveyActivity) getActivity()).getNextQuestion();
 			}
-        	
-        }, 1500);        
+        }, 1500);
+        return true;
     }
 
     @Override
