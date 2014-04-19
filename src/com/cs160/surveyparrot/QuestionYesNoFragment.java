@@ -38,9 +38,9 @@ public class QuestionYesNoFragment extends SoundFragment implements OnInitListen
     public boolean processWord(String in) {
     	System.out.println("processing "+ in);
         int choice;
-        if (in.toLowerCase(Locale.US).equals("yes")) {
+        if (in.equals("yes")) {
             choice = R.id.yes;
-        } else if (in.toLowerCase(Locale.US).equals("no")) {
+        } else if (in.equals("no")) {
             choice = R.id.no;
         } else {
             return false;

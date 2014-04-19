@@ -339,8 +339,17 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         if (data.size() > 0) {
             for (String word : data) {
-                if (questionFragment.processWord(word)) {
-                    break;
+                if (questionFragment.processWord(word.toLowerCase(Locale.US))) {
+                    return;
+                } else if (word.equals("stop")) {
+                    onClick(findViewById(R.id.bStop));
+                    return;
+                } else if (word.equals("repeat")) {
+                    onClick(findViewById(R.id.bRepeat));
+                    return;
+                } else if (word.equals("next")) {
+                    onClick(findViewById(R.id.bNext));
+                    return;
                 }
             }
         }
