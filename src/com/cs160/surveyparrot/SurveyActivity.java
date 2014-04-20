@@ -293,7 +293,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	public void readQuestion(int questionNumber){
 		if(questionNumber <= questions.size()){
 			Question q = questions.get(questionNumber -1);
-			String qNumber = "Question number " + questionNumber;
+			String qNumber = "Question number " + questionNumber + " of " + questions.size();
 			String question = questions.get(questionNumber-1).getQuestion();
 			System.out.println("speaking: " + qNumber + ": " + question);
 			
