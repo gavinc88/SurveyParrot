@@ -378,7 +378,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
         System.out.println("error " + error);
         System.out.println("Sorry, I did not understand what you said. Please try again.");
     	HashMap<String, String> hashTts = new HashMap<String, String>();
-	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "error_id");
 	    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
     }
     @Override
