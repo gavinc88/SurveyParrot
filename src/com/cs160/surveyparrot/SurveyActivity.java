@@ -229,6 +229,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			Fragment newFragment = new SurveyCompleteFragment();
 			ft.replace(R.id.questionFragment, newFragment).commit();
+			read("Thank you for completing this survey!");
 		}else{
 			loadQuestion(questionNumber);
 		}
