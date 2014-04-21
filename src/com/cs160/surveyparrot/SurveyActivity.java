@@ -73,6 +73,8 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		tts = new TextToSpeech(this, this);
 				
 		loadQuestion(questionNumber);
+		
+		//listen();
 	}
 	
 	@Override
@@ -350,8 +352,16 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
                 } else if (word.equals("next")) {
                     onClick(findViewById(R.id.bNext));
                     return;
+                } else if (word.equals("back")) {
+                	onBackPressed();
+                	return;
                 }
             }
+        }else{
+        	System.out.println("Sorry, I did not understand what you said. Please try again.");
+        	HashMap<String, String> hashTts = new HashMap<String, String>();
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+		    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
         }
     }
     @Override
@@ -366,6 +376,10 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
     public void onError(int error) {
         Log.e("TAG","Recognize Error");
         System.out.println("error " + error);
+        System.out.println("Sorry, I did not understand what you said. Please try again.");
+    	HashMap<String, String> hashTts = new HashMap<String, String>();
+	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+	    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
     }
     @Override
     public void onReadyForSpeech(Bundle params) {
@@ -389,5 +403,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
         }
         super.onDestroy();
     }
+	
+	public void read(String input){
+		System.out.println(input);
+    	HashMap<String, String> hashTts = new HashMap<String, String>();
+	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+	    tts.speak(input, TextToSpeech.QUEUE_ADD, hashTts);
+	}
 
 }

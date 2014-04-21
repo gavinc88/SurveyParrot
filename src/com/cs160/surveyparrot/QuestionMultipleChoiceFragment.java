@@ -1,6 +1,7 @@
 package com.cs160.surveyparrot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -19,6 +20,10 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
 	private RadioButton a,b,c,d,e;
 	private RadioButton[] choices;
 	private int numChoices;
+	
+	private HashSet<String> options;
+	private String[] letters = {"a", "b", "c", "d", "e"};
+	
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,8 +53,14 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
         choices[4] = e;
         
         for(int i = numChoices; i < 5; i++){
-        	choices[i].setVisibility(View.GONE);
+        	choices[i].setVisibility(View.INVISIBLE);
         }
+        
+        options = new HashSet<String>();
+        for(int i = 0; i < numChoices; i++){
+        	options.add(letters[i]);
+        }
+        
         return rootview;
     }
 
@@ -67,27 +78,34 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
             choice = 3;
         } else if (in.equals("e") && numChoices >= 5) {
             choice = 4;
+        } else if ((in.equals("c") && numChoices < 3) || (in.equals("d") && numChoices < 4) || (in.equals("e") && numChoices < 5)){
+        	((SurveyActivity) getActivity()).read("Sorry, " + in + " is not a valid answer. Please try again.");
+        	return true;
         } else {
             ArrayList<String[]> listOfWords= new ArrayList<String[]>(numChoices);
             // Populate list of words
             for (int i = 0; i < numChoices; i += 1) {
-                listOfWords.set(i, choices[i].getText().toString().toLowerCase(Locale.US).split("\\W+"));
+                listOfWords.add(i, choices[i].getText().toString().toLowerCase(Locale.US).split("\\W+"));
                 // Search for matches
                 for (String[] words : listOfWords) {
                     for (String word : words) {
-                        if (word.equals(in)) { // Match
-                            if (choice != -1) { // Redundant match
-                                return false;
-                            }
-                            choice = i;
-                            break; // Move on to words for next choice
-                        }
+                    	if(options.contains(word)){
+                    		return processWord(word);
+                    	}
+//                        if (word.equals(in)) { // Match
+//                            if (choice != -1) { // Redundant match
+//                                return false;
+//                            }
+//                            choice = i;
+//                            break; // Move on to words for next choice
+//                        }
                     }
                 }
             }
-            if (choice == -1) {
-                return false;
-            }
+            return false;
+//            if (choice == -1) {
+//                return false;
+//            }
         }
         radioChoice.check(choices[choice].getId());
         radioChoice.postDelayed(new Runnable(){
