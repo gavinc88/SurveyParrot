@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuestionYesNoFragment extends SoundFragment implements OnInitListener {
+public class QuestionYesNoFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
 	private RadioGroup radioChoice; 
@@ -55,8 +55,4 @@ public class QuestionYesNoFragment extends SoundFragment implements OnInitListen
         return true;
     }
 
-    @Override
-    public void onInit(int status) {
-    }
-    
 }

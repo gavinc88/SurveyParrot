@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuestionMultipleChoiceFragment extends SoundFragment implements OnInitListener {
+public class QuestionMultipleChoiceFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
 	private RadioGroup radioChoice;
@@ -79,7 +79,7 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
         } else if (in.equals("e") && numChoices >= 5) {
             choice = 4;
         } else if ((in.equals("c") && numChoices < 3) || (in.equals("d") && numChoices < 4) || (in.equals("e") && numChoices < 5)){
-        	((SurveyActivity) getActivity()).read("Sorry, " + in + " is not a valid answer. Please try again.");
+        	((SurveyActivity) getActivity()).read("Sorry, " + in + " is not a valid answer. Please try again.", false);
         	return true;
         } else {
             ArrayList<String[]> listOfWords= new ArrayList<String[]>(numChoices);
@@ -117,8 +117,5 @@ public class QuestionMultipleChoiceFragment extends SoundFragment implements OnI
         return true;
     }
 
-    @Override
-    public void onInit(int status) {
-    }
     
 }

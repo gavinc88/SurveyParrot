@@ -231,7 +231,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			Fragment newFragment = new SurveyCompleteFragment();
 			ft.replace(R.id.questionFragment, newFragment).commit();
-			read("Thank you for completing this survey!");
+			read("Thank you for completing this survey!", true);
 		}else{
 			loadQuestion(questionNumber);
 		}
@@ -409,11 +409,15 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
         super.onDestroy();
     }
 	
-	public void read(String input){
+	public void read(String input, boolean end){
 		System.out.println(input);
-    	HashMap<String, String> hashTts = new HashMap<String, String>();
-	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
-	    tts.speak(input, TextToSpeech.QUEUE_ADD, hashTts);
+		if(end){
+			tts.speak(input, TextToSpeech.QUEUE_ADD, null);
+		}else{
+	    	HashMap<String, String> hashTts = new HashMap<String, String>();
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+		    tts.speak(input, TextToSpeech.QUEUE_ADD, hashTts);
+		}
 	}
 
 }

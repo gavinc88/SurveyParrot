@@ -16,7 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class QuestionRatingFragment extends SoundFragment implements OnInitListener {
+public class QuestionRatingFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
 	private RatingBar rating;
@@ -40,15 +40,15 @@ public class QuestionRatingFragment extends SoundFragment implements OnInitListe
     public boolean processWord(String in) {
     	System.out.println("processing "+ in);
         int rate;
-        if (in.equals("1")) {
+        if (in.equals("1") || in.toLowerCase().equals("one")) {
             rate = 1;
-        } else if (in.equals("2")) {
+        } else if (in.equals("2") || in.toLowerCase().equals("two")) {
             rate = 2;
-        } else if (in.equals("3")) {
+        } else if (in.equals("3") || in.toLowerCase().equals("three")) {
             rate = 3;
-        } else if (in.equals("4")) {
+        } else if (in.equals("4") || in.toLowerCase().equals("four")) {
             rate = 4;
-        } else if (in.equals("5")) {
+        } else if (in.equals("5") || in.toLowerCase().equals("five")) {
             rate = 5;
         } else {
            return false;
@@ -61,10 +61,6 @@ public class QuestionRatingFragment extends SoundFragment implements OnInitListe
 			}        	
         }, 1500);
         return true;
-    }
-
-    @Override
-    public void onInit(int status) {
     }
 
 }
