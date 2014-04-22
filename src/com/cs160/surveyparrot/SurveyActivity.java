@@ -1,5 +1,6 @@
 package com.cs160.surveyparrot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -13,6 +14,9 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -48,9 +52,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	private SoundFragment questionFragment;
 	private SpeechRecognizer sr;
     private TextToSpeech tts;
+    Context context;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		context = this;
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
 
@@ -251,7 +258,21 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 						runOnUiThread(new Runnable(){
 							@Override
 							public void run() {
-								listen();
+								try {
+									listen();
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SecurityException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalStateException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						});
 					}
@@ -274,7 +295,21 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 						runOnUiThread(new Runnable(){
 							@Override
 							public void run() {
-								listen();
+								try {
+									listen();
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SecurityException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalStateException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						});
 					}
@@ -328,7 +363,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		}
 	}
 	
-	public void listen(){
+	public void listen() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
 		System.out.println("listening...");
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -336,9 +371,26 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		//intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 		sr.startListening(intent);
-		AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
+        playSound(context);
 	}
+	
+	public void playSound(Context context) throws IllegalArgumentException, 
+    SecurityException, 
+    IllegalStateException,
+    IOException {
+
+		Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		MediaPlayer mMediaPlayer = new MediaPlayer();
+		mMediaPlayer.setDataSource(context, soundUri);
+		final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+		if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+			mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+			mMediaPlayer.setLooping(false);
+			mMediaPlayer.prepare();
+			mMediaPlayer.start();
+		}
+}
 
     @Override
     public void onResults(Bundle results) {
