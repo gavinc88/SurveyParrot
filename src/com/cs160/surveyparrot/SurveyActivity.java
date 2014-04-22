@@ -10,7 +10,9 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -334,6 +336,8 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		//intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 		sr.startListening(intent);
+		AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
 	}
 
     @Override
