@@ -1,6 +1,9 @@
 package com.cs160.surveyparrot;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class LoginActivity extends Activity implements OnClickListener {
+	
+	final Context context = this;
 
 	private Button loginButton, createAccountButton;
 	private EditText usernameField;
+	private EditText passwordField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		createAccountButton.setOnClickListener(this);
 		
 		usernameField = (EditText)findViewById(R.id.enterUsername);
+		passwordField = (EditText)findViewById(R.id.enterPassword);
 	}
 	
 	@Override
@@ -32,12 +39,43 @@ public class LoginActivity extends Activity implements OnClickListener {
 		case R.id.bLogin:
 			Intent openMainActivity = new Intent(this, MainActivity.class);
 			SurveyParrotApplication.username = usernameField.getText().toString();
-	        startActivity(openMainActivity);
+			if (usernameField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()){
+				showAlert();
+			}
+			else {
+				startActivity(openMainActivity);
+			}
 			break;
 		case R.id.bCreateAccount:
 			Intent createAccount = new Intent(this, CreateUserActivity.class);
 	        startActivity(createAccount);
 			break;
 		}		
+	}
+
+	private void showAlert() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		// set title
+					alertDialogBuilder.setTitle("Please enter the correct username and password.");
+		 
+					// set dialog message
+					alertDialogBuilder
+						.setMessage("Your username and password are incorrect.")
+						.setCancelable(false)
+						.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+							}
+						  });
+		 
+						// create alert dialog
+						AlertDialog alertDialog = alertDialogBuilder.create();
+		 
+						// show it
+						alertDialog.show();
+		
 	}
 }
