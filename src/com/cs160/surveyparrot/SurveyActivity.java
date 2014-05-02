@@ -134,6 +134,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_jump){
+			sr.stopListening();
 			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.dialog_dropdown);
 			dialog.setTitle("Choose Question:");
@@ -198,6 +199,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	}
 	
 	private void loadQuestion(int questionNumber){
+		sr.stopListening();
 		progressMessage.setText("Question "+questionNumber+" of "+questions.size());
 		progressbar.setProgress(questionNumber);
 		if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){

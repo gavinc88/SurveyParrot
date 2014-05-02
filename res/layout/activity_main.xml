@@ -3,6 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:orientation="vertical"
     android:paddingTop="5dp"
     android:weightSum="10"
@@ -28,6 +29,7 @@
         android:id="@+id/parrotImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="4.4"
         android:adjustViewBounds="true"
         android:src="@drawable/survey_parrot_big_square" />

@@ -45,10 +45,13 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 		case R.id.bNext:
 			if (step == 1) {
 				EditText usernameField = (EditText)findViewById(R.id.username);
+				SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+				app.savePreferences("username", usernameField.getText().toString());
 				SurveyParrotApplication.username = usernameField.getText().toString();
 			} else if (step == 4 ) {
 				Intent openMainActivity = new Intent(this, MainActivity.class);
-		        startActivity(openMainActivity);
+				startActivity(openMainActivity);
+				finish();
 			}		
 			step++;
 			loadStep(step);

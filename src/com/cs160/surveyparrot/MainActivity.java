@@ -87,9 +87,22 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 			            tts.stop();
 			            tts.shutdown();
 			        }
-				}				
+				}
 			});
 			dialog.show();
+			return true;
+		}else if(id == R.id.view_completed_surveys){
+			return true;
+		}else if(id == R.id.log_out){
+			//remove loggedInToken from SharedPreferences
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+			app.removePreferences("username");
+			
+			Intent openLoginActivity = new Intent(this, LoginActivity.class);
+			//clear app state so login starts with clean slate
+			openLoginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			openLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(openLoginActivity);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

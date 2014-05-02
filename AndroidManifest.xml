@@ -14,10 +14,12 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MyTheme" >
+        android:theme="@style/MyTheme"
+        android:name="SurveyParrotApplication" >
         <activity
             android:name="com.cs160.surveyparrot.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,39 +28,42 @@
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.ChooseSurveyActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.SurveyActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.RedeemRewardsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.RewardRedeemedActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.ViewRewardDetailsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.CreateUserActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cs160.surveyparrot.DebugVoiceActivity"
             android:label="@string/title_activity_debug_voice" >
-        </activity>
-        <activity
-            android:name="com.cs160.surveyparrot.CreateUserAccountCompleteFragment"
-            android:label="@string/title_activity_create_user_account_complete_fragment" >
         </activity>
     </application>
 
