@@ -60,7 +60,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
-
+		
 		sr = SpeechRecognizer.createSpeechRecognizer(this);
 		sr.setRecognitionListener(this);
 
@@ -78,20 +78,79 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questionNumber = args.getInt("questionNumber");
 		
 		getSurveyQuestions(surveyName); //make server call to get survey info
-
+		
 		tts = new TextToSpeech(this, this);
 				
-		loadQuestion(questionNumber);
+		//loadQuestion(questionNumber);
 		
 		//listen();
 	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onInit(int status) {
+		System.out.println("initializing tts");
+		if (status == TextToSpeech.SUCCESS) {
+			if (Build.VERSION.SDK_INT >= 15) {
+				System.out.println("set utternace progress listener");
+				tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+					@Override
+					public void onDone(String utteranceId) {
+						System.out.println("utterance progress onDone");
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								listen();
+							}
+						});
+					}
+
+					@Override
+					public void onError(String utteranceId) {
+						System.out.println("utterance progress onError");
+					}
+
+					@Override
+					public void onStart(String utteranceId) {
+						System.out.println("utterance progress onStart");
+					}
+				});
+			} else {
+				System.out.println("set utternace completed listener");
+				tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
+					@Override
+					public void onUtteranceCompleted(String utteranceId) {
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								listen();
+							}
+						});
+					}
+				});
+			}
+            tts.setLanguage(Locale.US);
+            tts.setPitch(1.0f);
+            System.out.println("Initilization Complete!");
+            loadQuestion(questionNumber);
+        } else {
+        	System.out.println("Initilization Failed!");
+        }
+	}
+	
+	public void stopSpeechProcesses(){
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        sr.destroy();
+    }
 	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bStop:
 			saveSurvey();
-			stopTTS();
 			Intent openMainActivity = new Intent(this, MainActivity.class);
 	        startActivity(openMainActivity);
 	        finish();
@@ -116,7 +175,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questionNumber--;
 		if(questionNumber <= 0){
 			saveSurvey();
-			stopTTS();
+			//stopTTS();
 			finish();
 		}else{
 			loadQuestion(questionNumber);
@@ -171,7 +230,9 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				@Override
 				public void onClick(View v) {
 					questionNumber = tempQuestionNumber;
+					tts.stop();
 					loadQuestion(questionNumber);
+					repeatButton.setVisibility(View.VISIBLE);
 					dialog.dismiss();
 				}
 			});
@@ -196,6 +257,21 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questions.add(q2);
 		questions.add(q3);
 		progressbar.setMax(questions.size());
+	}
+	
+	//our audio processor from each fragment should call getActivity().getNextQuestion() to automatically proceed
+	public void getNextQuestion(){
+		questionNumber++;
+		if(questionNumber > questions.size()){
+			progressMessage.setText("Survey Completed!");
+			repeatButton.setVisibility(View.INVISIBLE);
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			Fragment newFragment = new SurveyCompleteFragment();
+			ft.replace(R.id.questionFragment, newFragment).commit();
+			read("Thank you for completing this survey!", true);
+		}else{
+			loadQuestion(questionNumber);
+		}
 	}
 	
 	private void loadQuestion(int questionNumber){
@@ -231,107 +307,6 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		readQuestion(questionNumber);
 	}
 	
-	//our audio processor from each fragment should call getActivity().getNextQuestion() to automatically proceed
-	public void getNextQuestion(){
-		questionNumber++;
-		if(questionNumber > questions.size()){
-			progressMessage.setText("Survey Completed!");
-			repeatButton.setVisibility(View.INVISIBLE);
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			Fragment newFragment = new SurveyCompleteFragment();
-			ft.replace(R.id.questionFragment, newFragment).commit();
-			read("Thank you for completing this survey!", true);
-		}else{
-			loadQuestion(questionNumber);
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onInit(int status) {
-		System.out.println("initializing tts");
-		if (status == TextToSpeech.SUCCESS) {
-			if (Build.VERSION.SDK_INT >= 15) {
-				System.out.println("set utternace progress listener");
-				tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-					@Override
-					public void onDone(String utteranceId) {
-						System.out.println("utterance progress onDone");
-						runOnUiThread(new Runnable(){
-							@Override
-							public void run() {
-								try {
-									listen();
-								} catch (IllegalArgumentException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (SecurityException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IllegalStateException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-						});
-					}
-
-					@Override
-					public void onError(String utteranceId) {
-						System.out.println("utterance progress onError");
-					}
-
-					@Override
-					public void onStart(String utteranceId) {
-						System.out.println("utterance progres onStart");
-					}
-				});
-			} else {
-				System.out.println("set utternace completed listener");
-				tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
-					@Override
-					public void onUtteranceCompleted(String utteranceId) {
-						runOnUiThread(new Runnable(){
-							@Override
-							public void run() {
-								try {
-									listen();
-								} catch (IllegalArgumentException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (SecurityException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IllegalStateException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-						});
-					}
-				});
-			}
-            tts.setLanguage(Locale.US);
-            tts.setPitch(1.0f);
-            readQuestion(questionNumber);
-        } else {
-        	System.out.println("Initilization Failed!");
-        }
-	}
-	
-    public void stopTTS(){
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-    }
-	
 	public void readQuestion(int questionNumber){
 		if(questionNumber <= questions.size()){
 			Question q = questions.get(questionNumber -1);
@@ -365,7 +340,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		}
 	}
 	
-	public void listen() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+	public void listen() {
 		System.out.println("listening...");
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -373,13 +348,15 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		//intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 		sr.startListening(intent);
-        playSound(context);
+		
+		try{
+			playSound(context);
+		}catch(Exception e){
+			Log.e("play sound", e.getMessage());
+		}
 	}
 	
-	public void playSound(Context context) throws IllegalArgumentException, 
-    SecurityException, 
-    IllegalStateException,
-    IOException {
+	public void playSound(Context context) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException {
 
 		Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		MediaPlayer mMediaPlayer = new MediaPlayer();
@@ -392,17 +369,70 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			mMediaPlayer.prepare();
 			mMediaPlayer.start();
 		}
-}
+	}
 
-    @Override
-    public void onResults(Bundle results) {
-		System.out.println("onResults " + results);
+	@Override
+    public void onDestroy() {
+        // Don't forget to shutdown TTS and SpeechRecognizer!
+        stopSpeechProcesses();
+        super.onDestroy();
+    }
+	
+	public void read(String input, boolean end){
+		System.out.println("reading: " + input);
+		if(end){
+			tts.speak(input, TextToSpeech.QUEUE_FLUSH, null);
+		}else{
+			//listen to new input
+	    	HashMap<String, String> hashTts = new HashMap<String, String>();
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "read_id");
+		    tts.speak(input, TextToSpeech.QUEUE_FLUSH, hashTts);
+		}
+	}
+
+	//---------------- Speech Recognizer Listener Start --------------------------
+	@Override
+	public void onReadyForSpeech(Bundle params) {
+		Log.e("SPEECH RECOGNIZER","Recognize Ready");
+	}
+
+	@Override
+	public void onBeginningOfSpeech() {
+		Log.e("SPEECH RECOGNIZER","Recognize Begin Speech");
+	}
+
+	@Override
+	public void onRmsChanged(float rmsdB) {	}
+
+	@Override
+	public void onBufferReceived(byte[] buffer) { }
+
+	@Override
+	public void onEndOfSpeech() {
+		 Log.e("SPEECH RECOGNIZER","Recognize End Speech");
+	}
+
+	@Override
+	public void onError(int error) {
+		Log.e("SPEECH RECOGNIZER","Recognize Error: "+ error);
+		if(error == 6){ //speech recognizer timed out
+			readQuestion(questionNumber);
+		}
+		if(error == 7){ //no word match found
+			System.out.println("Sorry, I did not understand what you said. Please try again.");
+	    	HashMap<String, String> hashTts = new HashMap<String, String>();
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+		    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
+		}
+	}
+
+	@Override
+	public void onResults(Bundle results) {
+		Log.e("SPEECH RECOGNIZER","Recognize onResults()");
 		ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         if (data.size() > 0) {
             for (String word : data) {
-                if (questionFragment.processWord(word.toLowerCase(Locale.US))) {
-                    return;
-                } else if (word.equals("stop")) {
+                if (word.equals("stop")) {
                     onClick(findViewById(R.id.bStop));
                     return;
                 } else if (word.equals("repeat")) {
@@ -414,64 +444,25 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
                 } else if (word.equals("back")) {
                 	onBackPressed();
                 	return;
+                } else if (questionFragment.processWord(word.toLowerCase(Locale.US))){
+                	return;
                 }
             }
-        }else{
-        	System.out.println("Sorry, I did not understand what you said. Please try again.");
+            System.out.println("Sorry, " + data.get(0) + " is not a valid command. Please try again.");
         	HashMap<String, String> hashTts = new HashMap<String, String>();
-		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
-		    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
+    	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+    	    tts.speak("Sorry, " + data.get(0) + " is not a valid command. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
+    	    return;
         }
-    }
-    @Override
-    public void onBeginningOfSpeech() {
-        Log.e("TAG","Recognize Begin Speech");
-    }
-    @Override
-    public void onEndOfSpeech() {
-        Log.e("TAG","Recognize End Speech");
-    }
-    @Override
-    public void onError(int error) {
-        Log.e("TAG","Recognize Error");
-        System.out.println("error " + error);
-        System.out.println("Sorry, I did not understand what you said. Please try again.");
-    	HashMap<String, String> hashTts = new HashMap<String, String>();
-	    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "error_id");
-	    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
-    }
-    @Override
-    public void onReadyForSpeech(Bundle params) {
-        Log.e("TAG","Recognize Ready");
-    }
-    @Override
-    public void onBufferReceived(byte[] arg0) {}
-    @Override
-    public void onEvent(int arg0, Bundle arg1) {}
-    @Override
-    public void onPartialResults(Bundle partialResults) {}
-    @Override
-    public void onRmsChanged(float rmsdB) {}
-    
-	@Override
-    public void onDestroy() {
-        // Don't forget to shutdown tts!
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onDestroy();
-    }
-	
-	public void read(String input, boolean end){
-		System.out.println(input);
-		if(end){
-			tts.speak(input, TextToSpeech.QUEUE_ADD, null);
-		}else{
-	    	HashMap<String, String> hashTts = new HashMap<String, String>();
-		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
-		    tts.speak(input, TextToSpeech.QUEUE_ADD, hashTts);
-		}
+    	
 	}
+
+	@Override
+	public void onPartialResults(Bundle partialResults) { }
+
+	@Override
+	public void onEvent(int eventType, Bundle params) {	}
+	
+	//---------------- Speech Recognizer Listener End --------------------------
 
 }
