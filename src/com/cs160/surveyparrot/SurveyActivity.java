@@ -268,7 +268,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			Fragment newFragment = new SurveyCompleteFragment();
 			ft.replace(R.id.questionFragment, newFragment).commit();
-			read("Thank you for completing this survey!", true);
+			read("Thank you for completing this survey! Would you like to take another one?", false);
 		}else{
 			loadQuestion(questionNumber);
 		}
@@ -349,10 +349,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 		sr.startListening(intent);
 		
-		try{
-			playSound(context);
-		}catch(Exception e){
-			Log.e("play sound", e.getMessage());
+		if(Build.VERSION.SDK_INT <= 15){
+			try{
+				playSound(context);
+			}catch(Exception e){
+				Log.e("play sound", e.getMessage());
+			}
 		}
 	}
 	
@@ -443,6 +445,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
                     return;
                 } else if (word.equals("back")) {
                 	onBackPressed();
+                	return;
+                } else if (questionNumber > questions.size() && word.equals("yes")){
+                	onClick(findViewById(R.id.bNext));
+                	return;
+                } else if (questionNumber > questions.size() && word.equals("no")){
+                	onClick(findViewById(R.id.bStop));
                 	return;
                 } else if (questionFragment.processWord(word.toLowerCase(Locale.US))){
                 	return;
