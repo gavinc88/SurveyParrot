@@ -7,15 +7,10 @@
     <string name="action_jump">Jump to Question</string>
     <string name="survey_complete">You have completed this survey!</string>
     <string name="survey_thanks">Thank you for your time!</string>
-    <string name="rating_instruction">Rate from a scale of 1 to 5, with 5 being most frequent. </string>
-    <string name="question1">How do you like your peanut butter?</string>
-    <string name="question2">How often do you eat snacks?</string>
-    <string name="question3">Do you like potato chips, yes or no?</string>
     <string name="title_activity_debug_voice">DebugVoiceActivity</string>
-    <string name="question1ChoiceA">A. Crunchy</string>
-    <string name="question1ChoiceB">B. Creamy</string>
     <string name="state_prompt">State</string>
-
+    <string name="error">If this text is visible, something\'s wrong.</string>
+    
     <string-array name="state_array">
         <item>AL</item>
         <item>AK</item>

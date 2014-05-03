@@ -72,14 +72,21 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 	}
 	
 	private void fetchSurvey(){
-		//get survey info from server
-		surveyName = "Snacks";
+		surveyName = Survey.surveys.get(SurveyActivity.surveyId).name;
 	}
 	
 	private void loadNewSurvey(){
-		//load new survey
-		fetchSurvey();
-		read();
+	    SurveyActivity.surveyId += 1;
+	    if (SurveyActivity.surveyId >= Survey.surveys.size()) {
+	        SurveyActivity.surveyId = 0;
+            Intent home = new Intent(this, MainActivity.class);
+            startActivity(home);
+            finish();
+	    } else {
+	        fetchSurvey();
+	        surveyNameTextView.setText(surveyName);     
+	        read();
+	    }
 	}
 	
 	@SuppressLint("NewApi")

@@ -17,7 +17,6 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
 	
 	private TextView question, questionNumber;
 	private RadioGroup radioChoice;
-	private RadioButton a,b,c,d,e;
 	private RadioButton[] choices;
 	private int numChoices;
 	
@@ -38,24 +37,18 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
         questionNumber.setText("Question "+ args.getInt("questionNumber"));
         question.setText(args.getString("question"));
         numChoices = args.getInt("numChoice");
-        
-        a = (RadioButton) rootview.findViewById(R.id.radioButton1);
-        b = (RadioButton) rootview.findViewById(R.id.radioButton2);
-        c = (RadioButton) rootview.findViewById(R.id.radioButton3);
-        d = (RadioButton) rootview.findViewById(R.id.radioButton4);
-        e = (RadioButton) rootview.findViewById(R.id.radioButton5);
-        
-        choices = new RadioButton[5];
-        choices[0] = a;
-        choices[1] = b;
-        choices[2] = c;
-        choices[3] = d;
-        choices[4] = e;
-        
+        choices = new RadioButton[] {(RadioButton) rootview.findViewById(R.id.radioButton1), (RadioButton) rootview.findViewById(R.id.radioButton2), (RadioButton) rootview.findViewById(R.id.radioButton3), (RadioButton) rootview.findViewById(R.id.radioButton4), (RadioButton) rootview.findViewById(R.id.radioButton5)};
         for(int i = numChoices; i < 5; i++){
         	choices[i].setVisibility(View.INVISIBLE);
         }
-        
+        choices[0].setText(args.getString("answera"));
+        choices[1].setText(args.getString("answerb"));
+        if (numChoices > 2)
+            choices[2].setText(args.getString("answerc"));
+        if (numChoices> 3)
+            choices[3].setText(args.getString("answerd"));
+        if (numChoices > 4)
+            choices[4].setText(args.getString("answere"));
         options = new HashSet<String>();
         for(int i = 0; i < numChoices; i++){
         	options.add(letters[i]);
@@ -92,20 +85,10 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
                     	if(options.contains(word)){
                     		return processWord(word);
                     	}
-//                        if (word.equals(in)) { // Match
-//                            if (choice != -1) { // Redundant match
-//                                return false;
-//                            }
-//                            choice = i;
-//                            break; // Move on to words for next choice
-//                        }
                     }
                 }
             }
             return false;
-//            if (choice == -1) {
-//                return false;
-//            }
         }
         radioChoice.check(choices[choice].getId());
         radioChoice.postDelayed(new Runnable(){

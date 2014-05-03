@@ -52,6 +52,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	private SoundFragment questionFragment;
 	private SpeechRecognizer sr;
     private TextToSpeech tts;
+    public static int surveyId = 0;
     Context context;
     
 	@Override
@@ -77,7 +78,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		surveyName = args.getString("survey");
 		questionNumber = args.getInt("questionNumber");
 		
-		getSurveyQuestions(surveyName); //make server call to get survey info
+		getSurveyQuestions(surveyId); //make server call to get survey info
 		
 		tts = new TextToSpeech(this, this);
 				
@@ -246,16 +247,8 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		//save survey for resume
 	}
 	
-	private void getSurveyQuestions(String surveyName){
-		questions = new ArrayList<Question>(3);
-		Question q1 = new Question(getResources().getString(R.string.question1), Question.QUESTION_TYPE_MULTIPLE_CHOICE, 2);
-		q1.addAnswer(1, getResources().getString(R.string.question1ChoiceA));
-		q1.addAnswer(2, getResources().getString(R.string.question1ChoiceB));
-		Question q2 = new Question(getResources().getString(R.string.question2), Question.QUESTION_TYPE_RATING);
-		Question q3 = new Question(getResources().getString(R.string.question3), Question.QUESTION_TYPE_YES_NO);
-		questions.add(q1);
-		questions.add(q2);
-		questions.add(q3);
+	private void getSurveyQuestions(int index){
+		questions = Survey.surveys.get(index).getQuestions();
 		progressbar.setMax(questions.size());
 	}
 	
@@ -278,29 +271,38 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		sr.stopListening();
 		progressMessage.setText("Question "+questionNumber+" of "+questions.size());
 		progressbar.setProgress(questionNumber);
-		if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
+		Question question = questions.get(questionNumber-1);
+		if(question.getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionMultipleChoiceFragment();
 			Bundle args = new Bundle();
 			args.putInt("questionNumber", questionNumber);
-			args.putString("question",questions.get(questionNumber-1).getQuestion());
-			args.putInt("numChoice", questions.get(questionNumber-1).getNumChoice());
+			args.putString("question",question.getQuestion());
+			args.putInt("numChoice", question.getNumChoice());
+			args.putString("answera", question.getAnswer(0));
+            args.putString("answerb", question.getAnswer(1));
+            if (question.getNumChoice() > 2)
+                args.putString("answerc", question.getAnswer(2));
+            if (question.getNumChoice() > 3)
+                args.putString("answerd", question.getAnswer(3));
+            if (question.getNumChoice() > 4)
+                args.putString("answere", question.getAnswer(4));			
 			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
-		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_RATING){
+		}else if(question.getType() == Question.QUESTION_TYPE_RATING){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionRatingFragment();
 			Bundle args = new Bundle();
 			args.putInt("questionNumber", questionNumber);
-			args.putString("question",questions.get(questionNumber-1).getQuestion());
+			args.putString("question",question.getQuestion());
 			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
-		}else if(questions.get(questionNumber-1).getType() == Question.QUESTION_TYPE_YES_NO){
+		}else if(question.getType() == Question.QUESTION_TYPE_YES_NO){
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			questionFragment = new QuestionYesNoFragment();
 			Bundle args = new Bundle();
 			args.putInt("questionNumber", questionNumber);
-			args.putString("question",questions.get(questionNumber-1).getQuestion());
+			args.putString("question",question.getQuestion());
 			questionFragment.setArguments(args);
 			ft.replace(R.id.questionFragment, questionFragment).commit();
 		}
@@ -311,7 +313,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		if(questionNumber <= questions.size()){
 			Question q = questions.get(questionNumber -1);
 			String qNumber = "Question number " + questionNumber + " of " + questions.size();
-			String question = questions.get(questionNumber-1).getQuestion();
+			String question = q.getQuestion();
 			System.out.println("speaking: " + qNumber + ": " + question);
 			
 			HashMap<String, String> hashTts = new HashMap<String, String>();
@@ -320,7 +322,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			if(q.getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
 				tts.speak(question, TextToSpeech.QUEUE_ADD, null);
-				for(int i = 1; i <= q.getNumChoice(); i++){
+				for(int i = 0; i < q.getNumChoice(); i++){
 					if(i == q.getNumChoice()){
 						tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, hashTts);
 					}else{
@@ -329,7 +331,6 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				}
 			}else if(q.getType() == Question.QUESTION_TYPE_RATING){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
-				tts.speak(getResources().getString(R.string.rating_instruction), TextToSpeech.QUEUE_ADD, null);
 				tts.speak(question, TextToSpeech.QUEUE_ADD, hashTts);
 			}else if(q.getType() == Question.QUESTION_TYPE_YES_NO){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);

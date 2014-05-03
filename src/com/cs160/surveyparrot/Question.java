@@ -39,17 +39,18 @@ public class Question {
 		return numChoice;
 	}
 	
-	public void addAnswer(int num, String answer){
+	public Question addAnswer(int num, String answer){
 		if(num <= numChoice){	
-			this.answers[num-1] = answer;
+			this.answers[num] = answer;
 		}else{
 			System.out.println("can't add answer "+ num);
 		}
+		return this;
 	}
 	
 	public String getAnswer(int num){
 		if(num <= numChoice){	
-			return answers[num-1];
+			return answers[num];
 		}else{
 			System.out.println("can't find answer "+ num);
 			return "";
