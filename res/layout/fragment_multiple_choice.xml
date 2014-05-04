@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/question1" />
+        android:text="@string/error" />
 
     <RadioGroup
         android:id="@+id/radioChoice"
@@ -30,14 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/question1ChoiceA" />
+            android:text="RadioButton" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/question1ChoiceB" />
+            android:text="RadioButton" />
 
         <RadioButton
             android:id="@+id/radioButton3"

@@ -12,18 +12,11 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/ratingInstruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/rating_instruction" />
-
-    <TextView
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/question2" />
+        android:text="@string/error" />
 
     <RatingBar
         android:id="@+id/ratingBar"
