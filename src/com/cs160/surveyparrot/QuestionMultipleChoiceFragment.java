@@ -21,7 +21,7 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
 	private int numChoices;
 	
 	private HashSet<String> options;
-	private String[] letters = {"a", "b", "c", "d", "e"};
+	private String[] letters = {"a", "b", "c", "d", "e", "alpha", "bravo", "charlie", "delta", "echo"}; //NATO phonetics
 	
 
 	@Override
@@ -52,6 +52,7 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
         options = new HashSet<String>();
         for(int i = 0; i < numChoices; i++){
         	options.add(letters[i]);
+        	options.add(letters[i+5]);
         }
         
         return rootview;
@@ -59,35 +60,46 @@ public class QuestionMultipleChoiceFragment extends SoundFragment {
 
     @Override
     public boolean processWord(String in) {
-    	System.out.println("processing "+ in);
+    	System.out.println("multiple choice processing "+ in);
     	int choice = -1;
-        if (in.equals("a")) {
+        if (in.equals("alpha") || in.equals("a")) {
             choice = 0;
-        } else if (in.equals("b")) {
+        } else if (in.equals("bravo") || in.equals("b")) {
             choice = 1;
-        } else if (in.equals("c") && numChoices >= 3) {
+        } else if (in.equals("charlie") || in.equals("c") && numChoices >= 3) {
             choice = 2;
-        } else if (in.equals("d") && numChoices >= 4) {
+        } else if (in.equals("delta") || in.equals("d") && numChoices >= 4) {
             choice = 3;
-        } else if (in.equals("e") && numChoices >= 5) {
+        } else if (in.equals("echo") || in.equals("e") && numChoices >= 5) {
             choice = 4;
-        } else if ((in.equals("c") && numChoices < 3) || (in.equals("d") && numChoices < 4) || (in.equals("e") && numChoices < 5)){
-        	((SurveyActivity) getActivity()).read("Sorry, " + in + " is not a valid answer. Please try again.", false);
-        	return true;
+//        } else if ((in.equals("c") && numChoices < 3) || (in.equals("d") && numChoices < 4) || (in.equals("e") && numChoices < 5)){
+//        	
+//        	return true;
         } else {
-            ArrayList<String[]> listOfWords= new ArrayList<String[]>(numChoices);
-            // Populate list of words
-            for (int i = 0; i < numChoices; i += 1) {
-                listOfWords.add(i, choices[i].getText().toString().toLowerCase(Locale.US).split("\\W+"));
-                // Search for matches
-                for (String[] words : listOfWords) {
-                    for (String word : words) {
-                    	if(options.contains(word)){
-                    		return processWord(word);
-                    	}
-                    }
-                }
+//            ArrayList<String[]> listOfWords= new ArrayList<String[]>(numChoices);
+//            // Populate list of words
+//            for (int i = 0; i < numChoices; i += 1) {
+//                listOfWords.add(i, choices[i].getText().toString().toLowerCase(Locale.US).split(" "));
+//                // Search for matches
+//                for (String[] words : listOfWords) {
+//                	for (String word : words) {
+//                    	if(options.contains(word)){
+//                    		System.out.println(word + "found");
+//                    		return processWord(word);
+//                    	}
+//                    }
+//                }
+//            }
+        	String[] words = in.toLowerCase().split(" ");
+        	for (String word : words) {
+        		System.out.print(word + ", ");
+            	if(options.contains(word)){
+            		System.out.println(word + "found");
+            		return processWord(word);
+            	}
             }
+        	System.out.println();
+           // ((SurveyActivity) getActivity()).read("Sorry, " + in + " is not a valid answer. Please try again.", false);
             return false;
         }
         radioChoice.check(choices[choice].getId());

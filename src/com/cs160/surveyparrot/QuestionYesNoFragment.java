@@ -36,7 +36,7 @@ public class QuestionYesNoFragment extends SoundFragment {
 
     @Override
     public boolean processWord(String in) {
-    	System.out.println("processing "+ in);
+    	System.out.println("yes no fragment processing "+ in);
         int choice;
         if (in.equals("yes")) {
             choice = R.id.yes;

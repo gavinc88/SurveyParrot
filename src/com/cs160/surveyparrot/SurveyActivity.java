@@ -39,6 +39,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class SurveyActivity extends Activity implements OnClickListener, RecognitionListener, TextToSpeech.OnInitListener {
@@ -62,9 +63,6 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
 		
-		sr = SpeechRecognizer.createSpeechRecognizer(this);
-		sr.setRecognitionListener(this);
-
 		stopButton = (Button) findViewById(R.id.bStop);
 		stopButton.setOnClickListener(this);
 		repeatButton = (Button) findViewById(R.id.bRepeat);
@@ -79,12 +77,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questionNumber = args.getInt("questionNumber");
 		
 		getSurveyQuestions(surveyId); //make server call to get survey info
+		System.out.println("questions.size(): "+questions.size());
 		
 		tts = new TextToSpeech(this, this);
 				
-		//loadQuestion(questionNumber);
-		
-		//listen();
+		sr = SpeechRecognizer.createSpeechRecognizer(this);
+		sr.setRecognitionListener(this);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -140,10 +138,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	}
 	
 	public void stopSpeechProcesses(){
+		System.out.println("SurveyActivity stopSpeechProcesses()");
         if (tts != null) {
             tts.stop();
             tts.shutdown();
         }
+        sr.stopListening();
         sr.destroy();
     }
 	
@@ -152,6 +152,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		switch(v.getId()){
 		case R.id.bStop:
 			saveSurvey();
+			stopSpeechProcesses();
 			Intent openMainActivity = new Intent(this, MainActivity.class);
 	        startActivity(openMainActivity);
 	        finish();
@@ -160,7 +161,9 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			readQuestion(questionNumber);
 			break;
 		case R.id.bNext:
+			//questionNumber++;
 			if(questionNumber > questions.size()){
+				stopSpeechProcesses();
 				Intent findNewSurvey = new Intent(this, ChooseSurveyActivity.class);
 		        startActivity(findNewSurvey);
 		        finish();
@@ -176,7 +179,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		questionNumber--;
 		if(questionNumber <= 0){
 			saveSurvey();
-			//stopTTS();
+			stopSpeechProcesses();
 			finish();
 		}else{
 			loadQuestion(questionNumber);
@@ -232,6 +235,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				public void onClick(View v) {
 					questionNumber = tempQuestionNumber;
 					tts.stop();
+					sr.stopListening();
 					loadQuestion(questionNumber);
 					repeatButton.setVisibility(View.VISIBLE);
 					dialog.dismiss();
@@ -255,6 +259,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	//our audio processor from each fragment should call getActivity().getNextQuestion() to automatically proceed
 	public void getNextQuestion(){
 		questionNumber++;
+		System.out.println("questionNumber: " + questionNumber);
 		if(questionNumber > questions.size()){
 			progressMessage.setText("Survey Completed!");
 			repeatButton.setVisibility(View.INVISIBLE);
@@ -317,13 +322,13 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			System.out.println("speaking: " + qNumber + ": " + question);
 			
 			HashMap<String, String> hashTts = new HashMap<String, String>();
-		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
+		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "question_id");
 			
 			if(q.getType() == Question.QUESTION_TYPE_MULTIPLE_CHOICE){
 				tts.speak(qNumber, TextToSpeech.QUEUE_FLUSH, null);
 				tts.speak(question, TextToSpeech.QUEUE_ADD, null);
 				for(int i = 0; i < q.getNumChoice(); i++){
-					if(i == q.getNumChoice()){
+					if(i == q.getNumChoice()-1){
 						tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, hashTts);
 					}else{
 						tts.speak(q.getAnswer(i), TextToSpeech.QUEUE_ADD, null);
@@ -347,7 +352,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.cs160.surveyparrot");
 		//intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
-		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
 		sr.startListening(intent);
 		
 		if(Build.VERSION.SDK_INT <= 15){
@@ -374,12 +379,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		}
 	}
 
-	@Override
-    public void onDestroy() {
-        // Don't forget to shutdown TTS and SpeechRecognizer!
-        stopSpeechProcesses();
-        super.onDestroy();
-    }
+//	@Override
+//    public void onDestroy() {
+//        // Don't forget to shutdown TTS and SpeechRecognizer!
+//        stopSpeechProcesses();
+//        super.onDestroy();
+//    }
 	
 	public void read(String input, boolean end){
 		System.out.println("reading: " + input);
@@ -420,12 +425,15 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		Log.e("SPEECH RECOGNIZER","Recognize Error: "+ error);
 		if(error == 6){ //speech recognizer timed out
 			readQuestion(questionNumber);
-		}
-		if(error == 7){ //no word match found
+		}else if(error == 7){ //no word match found
 			System.out.println("Sorry, I did not understand what you said. Please try again.");
 	    	HashMap<String, String> hashTts = new HashMap<String, String>();
 		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
 		    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
+		}else if(error == 2){ //network error
+			Toast.makeText(this, "network error: please check your connection", Toast.LENGTH_LONG);
+		}else if(error == 8){ //server busy
+			readQuestion(questionNumber);
 		}
 	}
 

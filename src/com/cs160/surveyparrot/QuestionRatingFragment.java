@@ -38,7 +38,7 @@ public class QuestionRatingFragment extends SoundFragment {
 
     @Override
     public boolean processWord(String in) {
-    	System.out.println("processing "+ in);
+    	System.out.println("rating fragment processing "+ in);
         int rate;
         if (in.equals("1") || in.toLowerCase().equals("one")) {
             rate = 1;

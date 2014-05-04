@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ChooseSurveyActivity extends Activity implements OnClickListener, RecognitionListener, TextToSpeech.OnInitListener {
 	
@@ -59,6 +60,7 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bYes:
+			stopSpeechProcesses();
 			Intent startSurvey = new Intent(this, SurveyActivity.class);
 			startSurvey.putExtra("survey", surveyName);
 			startSurvey.putExtra("questionNumber", 1);
@@ -143,19 +145,21 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 	}
 	
 	public void stopSpeechProcesses(){
+		System.out.println("ChooseSurveyActivity stopSpeechProcesses()");
         if (tts != null) {
             tts.stop();
             tts.shutdown();
         }
+        sr.stopListening();
         sr.destroy();
     }
 	
-	@Override
-    public void onDestroy() {
-        // Don't forget to shutdown TTS and SpeechRecognizer!
-        stopSpeechProcesses();
-        super.onDestroy();
-    }
+//	@Override
+//    public void onDestroy() {
+//        // Don't forget to shutdown TTS and SpeechRecognizer!
+//        //stopSpeechProcesses();
+//        super.onDestroy();
+//    }
 	
 	public void read(){
 		String input = "Would you like to take a survey on " + surveyName;
@@ -224,12 +228,13 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 			Log.e("SPEECH RECOGNIZER","Recognize Error: "+ error);
 			if(error == 6){ //speech recognizer timed out
 				read();
-			}
-			if(error == 7){ //no word match found
+			}else if(error == 7){ //no word match found
 				System.out.println("Sorry, I did not understand what you said. Please try again.");
 		    	HashMap<String, String> hashTts = new HashMap<String, String>();
 			    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
 			    tts.speak("Sorry, I did not understand what you said. Please try again.", TextToSpeech.QUEUE_ADD, hashTts);
+			}else if(error == 2){ //network error
+				Toast.makeText(this, "network error: please check your connection", Toast.LENGTH_LONG);
 			}
 		}
 
