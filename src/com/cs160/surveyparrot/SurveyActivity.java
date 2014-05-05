@@ -7,11 +7,13 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -35,6 +37,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -55,6 +60,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
     private TextToSpeech tts;
     public static int surveyId = 0;
     Context context;
+    
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				
 		sr = SpeechRecognizer.createSpeechRecognizer(this);
 		sr.setRecognitionListener(this);
+		
+		//show help if not disabled
+		SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+		if(!app.getBooleanPreferences("help1")){
+			showHelpDialog(1);
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -243,8 +255,51 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			});
  			dialog.show();
 			return true;
+		}else if(id == R.id.action_view_commands){
+			showHelpDialog(1);
+		}else if(id == R.id.action_help){
+			showHelpDialog(2);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void showHelpDialog(int helpNumber) {
+		//helpNumber = 1 for list of voice commands
+		//helpNumber = 2 for NATO instructions
+		
+		final String help = "help"+helpNumber;
+		
+		//Show instructions for NATO phonetics
+		View checkBoxView = View.inflate(this, R.layout.dialog_help, null);
+		CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox_help);
+		SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+		checkBox.setChecked(app.getBooleanPreferences(help));
+		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+		    @Override
+		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	    		SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+	    		app.savePreferences(help, isChecked);
+		    }
+		});
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setView(checkBoxView);
+		alertDialogBuilder.setTitle("Help Instructions.");
+		
+		if(helpNumber == 1){
+			alertDialogBuilder.setMessage("If you ever get stuck, try the following commands:\n- Back\n- Repeat\n- Stop\n- Next");
+		}else if(helpNumber == 2){
+			alertDialogBuilder.setMessage("If the speech recognition program is not recognizing your answers. " +
+				"Try replacing your answers to the following:\n" +
+				"A -> Alpha \nB -> Bravo\nC -> Charlie\nD -> Delta\nE -> Echo");				
+		}
+		alertDialogBuilder.setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+		AlertDialog helpDialog = alertDialogBuilder.create();
+		helpDialog.show();
 	}
 	
 	private void saveSurvey(){
@@ -342,7 +397,8 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 				tts.speak(question, TextToSpeech.QUEUE_ADD, hashTts);
 			}
 		}else{
-			System.out.println("No questions");
+			System.out.println("No questions left");
+			read("Thank you for completing this survey! Would you like to take another one?", false);
 		}
 	}
 	
@@ -426,6 +482,12 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		if(error == 6){ //speech recognizer timed out
 			readQuestion(questionNumber);
 		}else if(error == 7){ //no word match found
+			//show help if not disabled
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+    		if(!app.getBooleanPreferences("help2")){
+    			showHelpDialog(2);
+    		}
+    		
 			System.out.println("Sorry, I did not understand what you said. Please try again.");
 	    	HashMap<String, String> hashTts = new HashMap<String, String>();
 		    hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "id");
@@ -443,25 +505,25 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         if (data.size() > 0) {
             for (String word : data) {
-                if (word.equals("stop")) {
+                if (word.toLowerCase(Locale.US).equals("stop")) {
                     onClick(findViewById(R.id.bStop));
                     return;
-                } else if (word.equals("repeat")) {
+                } else if (word.toLowerCase(Locale.US).equals("repeat")) {
                     onClick(findViewById(R.id.bRepeat));
                     return;
-                } else if (word.equals("next")) {
+                } else if (word.toLowerCase(Locale.US).equals("next")) {
                     onClick(findViewById(R.id.bNext));
                     return;
-                } else if (word.equals("back")) {
+                } else if (word.toLowerCase(Locale.US).equals("back")) {
                 	onBackPressed();
                 	return;
-                } else if (questionNumber > questions.size() && word.equals("yes")){
+                } else if (questionNumber > questions.size() && word.toLowerCase(Locale.US).equals("yes")){
                 	onClick(findViewById(R.id.bNext));
                 	return;
-                } else if (questionNumber > questions.size() && word.equals("no")){
+                } else if (questionNumber > questions.size() && word.toLowerCase(Locale.US).equals("no")){
                 	onClick(findViewById(R.id.bStop));
                 	return;
-                } else if (questionFragment.processWord(word.toLowerCase(Locale.US))){
+                } else if (questionNumber <= questions.size() && questionFragment.processWord(word.toLowerCase(Locale.US))){
                 	return;
                 }
             }

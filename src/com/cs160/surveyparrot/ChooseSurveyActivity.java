@@ -68,6 +68,8 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 	        finish();
 			break;
 		case R.id.bNo:
+			tts.stop();
+			sr.stopListening();
 			loadNewSurvey();
 			break;
 		}
