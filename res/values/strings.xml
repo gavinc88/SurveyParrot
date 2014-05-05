@@ -10,7 +10,7 @@
     <string name="title_activity_debug_voice">DebugVoiceActivity</string>
     <string name="state_prompt">State</string>
     <string name="error">If this text is visible, something\'s wrong.</string>
-    
+
     <string-array name="state_array">
         <item>AL</item>
         <item>AK</item>
@@ -87,5 +87,9 @@
 
     <string name="title_activity_create_user_account_complete_fragment">CreateUserAccountCompleteFragment</string>
     <string name="createAccount_complete">You have successfully created an account with SurveyParrot!</string>
+    <string name="title_activity_view_reward_details_activity1">ViewRewardDetailsActivity1</string>
+    <string name="title_activity_view_reward_details_activity2">ViewRewardDetailsActivity2</string>
+    <string name="title_activity_reward_redeemed_activity2">RewardRedeemedActivity2</string>
+    <string name="title_activity_reward_redeemed_activity3">RewardRedeemedActivity3</string>
 
 </resources>

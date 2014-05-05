@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ViewRewardDetailsActivity extends Activity implements OnClickListener  {
+public class ViewRewardDetailsActivity0 extends Activity implements OnClickListener  {
 	
 	Context context;
 	
@@ -34,16 +34,16 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		amt = "$20.00";
 		details = "Earned on 04/05/14 from Snacks Survey.";
 		
-		rewardName = (TextView)findViewById(R.id.rewardName);
+		rewardName = (TextView)findViewById(R.id.rewardName0);
 		rewardName.setText(name);
 		
-		amountValue = (TextView)findViewById(R.id.amountValue);
+		amountValue = (TextView)findViewById(R.id.amountValue0);
 		amountValue.setText(amt);
 		
-		rewardDetails = (TextView)findViewById(R.id.rewardDetails);
+		rewardDetails = (TextView)findViewById(R.id.rewardDetails0);
 		rewardDetails.setText(details);
 		
-		redeemButton = (Button)findViewById(R.id.redeemButton);
+		redeemButton = (Button)findViewById(R.id.redeemButton0);
 		redeemButton.setOnClickListener(this);
 		
 
@@ -54,7 +54,7 @@ public class ViewRewardDetailsActivity extends Activity implements OnClickListen
 		// TODO Auto-generated method stub
 		
 		switch(arg0.getId()){
-		case R.id.redeemButton:
+		case R.id.redeemButton0:
 			Intent openRedeemed = new Intent(this, RewardRedeemedActivity.class);
 	        startActivity(openRedeemed);
 	        finish();
