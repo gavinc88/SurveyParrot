@@ -29,7 +29,7 @@ public class RewardRedeemedActivity extends Activity {
 		
 		name = " Amazon gift card";
 		amt = "$10.00";
-		info = "Was added to your account.";
+		info = "was added to your account.";
 		
 		lineName = (TextView)findViewById(R.id.lineName);
 		lineName.setText("Your " + name + " of");

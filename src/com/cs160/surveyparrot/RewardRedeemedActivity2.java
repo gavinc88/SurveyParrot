@@ -32,7 +32,7 @@ public class RewardRedeemedActivity2 extends Activity {
 
 		name = " coupon";
 		amt = "Jamba Juice";
-		info = "Was ready to print. Please check your email.";
+		info = "is ready to print. Please check your email.";
 		
 		lineName = (TextView)findViewById(R.id.lineName);
 		lineName.setText("Your coupon of");
