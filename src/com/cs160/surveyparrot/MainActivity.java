@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 	private Button resumeButton, startButton, bRedeemRewards;
 	private boolean hasActiveSurvey; //true if the user quits while taking a survey
 	private String surveyName;
-	private int questionNumber;
+	private int surveyId, questionNumber;
 	Context context;
 	
 	@Override
@@ -59,10 +59,10 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == R.id.debugVoice) {
-		    Intent i = new Intent(this, DebugVoiceActivity.class);
-		    startActivity(i);
-		} else if (id == R.id.action_settings) {
+//		if (id == R.id.debugVoice) {
+//		    Intent i = new Intent(this, DebugVoiceActivity.class);
+//		    startActivity(i);
+		if (id == R.id.action_settings) {
 			//Temp for testing text to speech
 			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.dialog_edittext);
@@ -91,8 +91,8 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 			});
 			dialog.show();
 			return true;
-		}else if(id == R.id.view_completed_surveys){
-			return true;
+//		}else if(id == R.id.view_completed_surveys){
+//			return true;
 		}else if(id == R.id.log_out){
 			//remove loggedInToken from SharedPreferences
 			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
@@ -113,27 +113,37 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 		switch(v.getId()){
 		case R.id.bResumeSurvey:
 			Intent resumeSurvey = new Intent(this, SurveyActivity.class);
-			resumeSurvey.putExtra("survey", surveyName);
+			resumeSurvey.putExtra("surveyID", surveyId);
 			resumeSurvey.putExtra("questionNumber", questionNumber);
 	        startActivity(resumeSurvey);
+	        finish();
 			break;
 		case R.id.bStartSurvey:
 			Intent startSurvey = new Intent(this, ChooseSurveyActivity.class);
 	        startActivity(startSurvey);
+	        finish();
 			break;
 		case R.id.bRedeemRewards:
 			Intent redeemRewards = new Intent(this, RedeemRewardsActivity.class);
 	        startActivity(redeemRewards);
+	        finish();
 			break;
 		}
 	}
 	
 	private void getResumableSurvey(){
-		//if active survey exists (check database)
-		hasActiveSurvey = true;
-		surveyName = "Snacks";
-		questionNumber = 3;
-		//else hasActiveSurvey = false;
+		//if active survey exists (check SharedPreferences)
+		SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+		if(app.getIntPreferences("SurveyId") != -1){
+			hasActiveSurvey = true;
+			surveyId = app.getIntPreferences("SurveyId");
+			surveyName = Survey.surveys.get(app.getIntPreferences("SurveyId")).name;
+			questionNumber = app.getIntPreferences("QuestionNumber");
+		}else{
+			hasActiveSurvey = false;
+			surveyName = Survey.surveys.get(0).name;
+			questionNumber = 1;
+		}
 	}
 	
 	private TextToSpeech tts;

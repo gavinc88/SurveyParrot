@@ -79,7 +79,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		progressbar = (ProgressBar) findViewById(R.id.surveyProgress);
 		
 		Bundle args = getIntent().getExtras();
-		surveyName = args.getString("survey");
+		surveyId = args.getInt("surveyId");
 		questionNumber = args.getInt("questionNumber");
 		
 		getSurveyQuestions(surveyId); //make server call to get survey info
@@ -192,6 +192,8 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		if(questionNumber <= 0){
 			saveSurvey();
 			stopSpeechProcesses();
+			Intent openMainActivity = new Intent(this, MainActivity.class);
+	        startActivity(openMainActivity);
 			finish();
 		}else{
 			loadQuestion(questionNumber);
@@ -304,6 +306,11 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	
 	private void saveSurvey(){
 		//save survey for resume
+		if(questionNumber <= questions.size()){
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+			app.savePreferences("SurveyId", surveyId);
+			app.savePreferences("QuestionNumber", questionNumber);
+		}
 	}
 	
 	private void getSurveyQuestions(int index){
@@ -322,6 +329,11 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 			Fragment newFragment = new SurveyCompleteFragment();
 			ft.replace(R.id.questionFragment, newFragment).commit();
 			read("Thank you for completing this survey! Would you like to take another one?", false);
+			
+			//clear saved survey
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+			app.removePreferences("SurveyId");
+			app.removePreferences("QuestionNumber");
 		}else{
 			loadQuestion(questionNumber);
 		}

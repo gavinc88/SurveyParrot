@@ -62,7 +62,7 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 		case R.id.bYes:
 			stopSpeechProcesses();
 			Intent startSurvey = new Intent(this, SurveyActivity.class);
-			startSurvey.putExtra("survey", surveyName);
+			startSurvey.putExtra("surveyId", SurveyActivity.surveyId);
 			startSurvey.putExtra("questionNumber", 1);
 	        startActivity(startSurvey);
 	        finish();

@@ -47,7 +47,7 @@ public class SurveyParrotApplication extends Application {
 	
 	public int getIntPreferences(String key){
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		return sharedPreferences.getInt(key, 1);
+		return sharedPreferences.getInt(key, -1);
 	}
 	
 	public void removePreferences(String key){
