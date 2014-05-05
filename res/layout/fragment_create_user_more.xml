@@ -13,6 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   Address" />
+
         <EditText
             android:id="@+id/streetAddressField"
             android:layout_width="fill_parent"
@@ -51,17 +52,14 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="   Ethnicity" />
-	<EditText
-        android:id="@+id/ethnicityField"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Ethnicity" />
-	
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="" />
+
+	<Spinner
+	    android:id="@+id/ethnicityField"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:entries="@array/ethnicity_array"
+	    android:prompt="@string/ethnicity" />
 	
 	<TextView
 	    android:layout_width="wrap_content"

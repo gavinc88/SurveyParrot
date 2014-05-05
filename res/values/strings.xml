@@ -64,6 +64,19 @@
         <item>WY</item>
     </string-array>
 
+    <string name="ethnicity">Ethnicity</string>
+    
+    <string-array name="ethnicity_array">
+        <item>Non-Hispanic White</item>
+        <item>African American</item>
+        <item>Hispanic American</item>
+        <item>East Asian American</item>
+        <item>South Asian American</item>
+        <item>Middle Eastern American</item>
+        <item>Native American</item>
+        <item>Other</item>
+    </string-array>
+        
     <string name="marital_status">Marital Status</string>
 
     <string-array name="marital_status_array">

@@ -19,7 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnClickListener, TextToSpeech.OnInitListener {
+public class MainActivity extends Activity implements OnClickListener {
 
 	private Button resumeButton, startButton, bRedeemRewards;
 	private boolean hasActiveSurvey; //true if the user quits while taking a survey
@@ -63,33 +63,6 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 //		    Intent i = new Intent(this, DebugVoiceActivity.class);
 //		    startActivity(i);
 		if (id == R.id.action_settings) {
-			//Temp for testing text to speech
-			final Dialog dialog = new Dialog(this);
-			dialog.setContentView(R.layout.dialog_edittext);
-			dialog.setTitle("Enter text to speak:");
-			
-			et = (EditText) dialog.findViewById(R.id.editText);
-			
-			initializeTTS();
-			
-			Button confirmButton = (Button) dialog.findViewById(R.id.bConfirm);
-			confirmButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					speak(et.getText().toString());
-					//dialog.dismiss();
-				}
-			});
-			dialog.setOnDismissListener(new OnDismissListener(){
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					if (tts != null) {
-			            tts.stop();
-			            tts.shutdown();
-			        }
-				}
-			});
-			dialog.show();
 			return true;
 //		}else if(id == R.id.view_completed_surveys){
 //			return true;
@@ -145,46 +118,4 @@ public class MainActivity extends Activity implements OnClickListener, TextToSpe
 			questionNumber = 1;
 		}
 	}
-	
-	private TextToSpeech tts;
-	private EditText et;
-	
-	public void initializeTTS(){
-		tts = new TextToSpeech(this, this);
-		//tts.setLanguage(Locale.US);
-	}
-
-	public void speak(String text){
-		System.out.println("speaking: " + text);
-		tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-	}
-	
-	@Override
-    public void onInit(int status) {
- 
-        if (status == TextToSpeech.SUCCESS) {
- 
-            int result = tts.setLanguage(Locale.US);
- 
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                System.out.println("This Language is not supported");
-            } else {
-                //btnSpeak.setEnabled(true);
-                //speak(et.getText().toString());
-            } 
-        } else {
-        	System.out.println("Initilization Failed!");
-        }
-    }
-	
-	@Override
-    public void onDestroy() {
-        // Don't forget to shutdown tts!
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onDestroy();
-    }
 }

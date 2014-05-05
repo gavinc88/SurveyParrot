@@ -40,7 +40,7 @@ public class CreateUserBasicInfoFragment extends Fragment implements OnClickList
 			dialog.setTitle("Choose Birthday:");
 			
 			final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker);
-						
+
 			Button confirmButton = (Button) dialog.findViewById(R.id.bConfirm);
 			confirmButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -49,7 +49,7 @@ public class CreateUserBasicInfoFragment extends Fragment implements OnClickList
 					int month = dp.getMonth();
 					int day = dp.getDayOfMonth();
 					
-					birthday.setText(month + "/" + day + "/" + year);
+					birthday.setText(month+1 + "/" + day + "/" + year);
 					dialog.dismiss();
 				}
 			});

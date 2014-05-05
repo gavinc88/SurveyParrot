@@ -39,13 +39,16 @@ public class CreateUserActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.bCancel:
+			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+			app.removePreferences("username");
 			Intent openLoginActivity = new Intent(this, LoginActivity.class);
 	        startActivity(openLoginActivity);
+	        finish();
 			break;
 		case R.id.bNext:
 			if (step == 1) {
 				EditText usernameField = (EditText)findViewById(R.id.username);
-				SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
+				app = (SurveyParrotApplication) getApplication();
 				app.savePreferences("username", usernameField.getText().toString());
 				SurveyParrotApplication.username = usernameField.getText().toString();
 			} else if (step == 4 ) {
