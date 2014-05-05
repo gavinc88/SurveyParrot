@@ -70,12 +70,15 @@ public class MainActivity extends Activity implements OnClickListener {
 			//remove loggedInToken from SharedPreferences
 			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
 			app.removePreferences("username");
+			app.removePreferences("SurveyId");
+			app.removePreferences("QuestionNumber");
 			
 			Intent openLoginActivity = new Intent(this, LoginActivity.class);
 			//clear app state so login starts with clean slate
 			openLoginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			openLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(openLoginActivity);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -190,7 +190,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 	public void onBackPressed(){
 		questionNumber--;
 		if(questionNumber <= 0){
-			saveSurvey();
+			//saveSurvey();
 			stopSpeechProcesses();
 			Intent openMainActivity = new Intent(this, MainActivity.class);
 	        startActivity(openMainActivity);
@@ -286,7 +286,7 @@ public class SurveyActivity extends Activity implements OnClickListener, Recogni
 		});
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 		alertDialogBuilder.setView(checkBoxView);
-		alertDialogBuilder.setTitle("Help Instructions.");
+		alertDialogBuilder.setTitle("Help");
 		
 		if(helpNumber == 1){
 			alertDialogBuilder.setMessage("If you ever get stuck, try the following commands:\n- Back\n- Repeat\n- Stop\n- Next");
