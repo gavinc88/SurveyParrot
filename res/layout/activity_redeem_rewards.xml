@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -13,62 +15,73 @@
         android:id="@+id/earnedRewards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:text="Your Earned Rewards"
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/Amount"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:weightSum="10" >
+
+        <TextView
+            android:id="@+id/Reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="Rewards"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="3"
+            android:text="Type"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Reward"
-        android:layout_alignBottom="@+id/Reward"
-        android:layout_alignRight="@+id/earnedRewards"
-        android:text="Type"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_weight="1"
+        android:weightSum="10" >
 
-    <TextView
-        android:id="@+id/Reward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/earnedRewards"
-        android:layout_below="@+id/earnedRewards"
-        android:layout_marginTop="24dp"
-        android:text="Reward"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <ListView
+            android:id="@+id/ListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" >
+        </ListView>
 
-    <ListView
-        android:id="@+id/ListView"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_alignLeft="@+id/Reward"
-        android:layout_below="@+id/Reward">
-    </ListView>
+        <ListView
+            android:id="@+id/ListView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7" >
+        </ListView>
+
+    </LinearLayout>
     
-     <ListView
-        android:id="@+id/ListView2"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_alignLeft="@+id/Amount"
-        android:layout_below="@+id/Amount">
-    </ListView>
-<!--  
-    <Button
-        android:id="@+id/redeemAll"
-        style="@style/buttonTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ListView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Redeem All" />
-        -->
+     <Button
+         android:id="@+id/redeemAll"
+         style="@style/buttonTheme"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/ListView"
+         android:layout_centerHorizontal="true"
+         android:layout_gravity="center"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:layout_marginTop="10dp"
+         android:paddingLeft="10dp"
+         android:paddingRight="10dp"
+         android:text="Redeem All" />
 
-</RelativeLayout>
+</LinearLayout>

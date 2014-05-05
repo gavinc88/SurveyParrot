@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.bRedeemRewards:
 			Intent redeemRewards = new Intent(this, RedeemRewardsActivity.class);
 	        startActivity(redeemRewards);
-	        finish();
+	        //finish();
 			break;
 		}
 	}

@@ -41,8 +41,7 @@ public class RedeemRewardsActivity extends Activity implements OnClickListener {
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
 				final String item = (String) parent.getItemAtPosition(position);
 				switch(position){
 				case 0:
