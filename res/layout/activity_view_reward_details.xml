@@ -7,10 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs160.surveyparrot.ViewRewardDetailsActivity" >
+    tools:context="com.cs160.surveyparrot.ViewRewardDetailsActivity0" >
 
     <TextView
-        android:id="@+id/rewardName"
+        android:id="@+id/rewardName0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -21,51 +21,51 @@
         />
 
     <TextView
-        android:id="@+id/amountLabel"
+        android:id="@+id/amountLabel0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/rewardName"
+        android:layout_below="@id/rewardName0"
         android:layout_marginTop="30dp"
         android:text="Amount:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/amountValue"
+        android:id="@+id/amountValue0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/amountLabel"
+        android:layout_alignBottom="@id/amountLabel0"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/amountLabel"
+        android:layout_toRightOf="@id/amountLabel0"
         android:text="$10.00"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/detailsLabel"
+        android:id="@+id/detailsLabel0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/amountLabel"
+        android:layout_below="@id/amountLabel0"
         android:layout_marginTop="20dp"
         android:text="Details:"
         android:textAppearance="?android:attr/textAppearanceMedium"  />
 
     <TextView
-        android:id="@+id/rewardDetails"
+        android:id="@+id/rewardDetails0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/amountValue"
-        android:layout_alignTop="@id/detailsLabel"
-        android:layout_toRightOf="@id/detailsLabel"
+        android:layout_alignLeft="@id/amountValue0"
+        android:layout_alignTop="@id/detailsLabel0"
+        android:layout_toRightOf="@id/detailsLabel0"
         android:text="Earned on 03/07/14 from Snacks Survey."
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/redeemButton"
+        android:id="@+id/redeemButton0"
         style="@style/buttonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rewardDetails"
+        android:layout_below="@+id/rewardDetails0"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:paddingLeft="10dp"

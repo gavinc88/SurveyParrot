@@ -11,11 +11,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name="com.cs160.surveyparrot.SurveyParrotApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MyTheme"
-        android:name="SurveyParrotApplication" >
+        android:theme="@style/MyTheme" >
         <activity
             android:name="com.cs160.surveyparrot.LoginActivity"
             android:label="@string/app_name"
@@ -52,7 +52,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.cs160.surveyparrot.ViewRewardDetailsActivity"
+            android:name="com.cs160.surveyparrot.ViewRewardDetailsActivity0"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
@@ -64,6 +64,22 @@
         <activity
             android:name="com.cs160.surveyparrot.DebugVoiceActivity"
             android:label="@string/title_activity_debug_voice" >
+        </activity>
+        <activity
+            android:name="com.cs160.surveyparrot.ViewRewardDetailsActivity1"
+            android:label="@string/title_activity_view_reward_details_activity1" >
+        </activity>
+        <activity
+            android:name="com.cs160.surveyparrot.ViewRewardDetailsActivity2"
+            android:label="@string/title_activity_view_reward_details_activity2" >
+        </activity>
+        <activity
+            android:name="com.cs160.surveyparrot.RewardRedeemedActivity2"
+            android:label="@string/title_activity_reward_redeemed_activity2" >
+        </activity>
+        <activity
+            android:name="com.cs160.surveyparrot.RewardRedeemedActivity3"
+            android:label="@string/title_activity_reward_redeemed_activity3" >
         </activity>
     </application>
 

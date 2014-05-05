@@ -27,7 +27,7 @@
         android:layout_alignBaseline="@+id/Reward"
         android:layout_alignBottom="@+id/Reward"
         android:layout_alignRight="@+id/earnedRewards"
-        android:text="Amount"
+        android:text="Type"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -42,46 +42,33 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/rewardName1"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/ListView"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_alignLeft="@+id/Reward"
-        android:layout_below="@+id/Reward"
-        android:layout_marginTop="14dp"
-        android:textSize="19sp"
-        android:text="Amazon Gift Card" />
-
-    <TextView
-        android:id="@+id/amt1"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/Reward">
+    </ListView>
+    
+     <ListView
+        android:id="@+id/ListView2"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/rewardName1"
-        android:layout_alignBottom="@+id/rewardName1"
-        android:layout_alignRight="@+id/Amount"
-        android:textSize="19sp"
-        android:text="$10.00" />
-
-    <TextView
-        android:id="@+id/viewDetails1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/rewardName1"
-        android:layout_below="@+id/rewardName1"
-        android:layout_marginTop="14dp"
-        android:textSize="18sp"
-        android:text="View Details" />
-
+        android:layout_width="match_parent"
+        android:layout_alignLeft="@+id/Amount"
+        android:layout_below="@+id/Amount">
+    </ListView>
+<!--  
     <Button
         android:id="@+id/redeemAll"
         style="@style/buttonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewDetails1"
+        android:layout_below="@+id/ListView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="Redeem All" />
+        -->
 
 </RelativeLayout>
