@@ -29,12 +29,15 @@ public class RewardRedeemedActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_redeemed);
 		context = this;
-		
+
 		Bundle args = getIntent().getExtras();
 		name = args.getString("RewardName");
 		amt = args.getString("Amount");
 		type = args.getInt("Type");
 		rewardNumber = args.getInt("RewardNumber");
+		name = " Amazon gift card";
+		amt = "$10.00";
+		info = "was added to your account.";
 		
 		lineName = (TextView)findViewById(R.id.lineName);
 		lineAmt = (TextView)findViewById(R.id.lineAmt);

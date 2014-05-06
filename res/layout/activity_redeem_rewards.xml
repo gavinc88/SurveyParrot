@@ -20,34 +20,6 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
- <!-- <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:weightSum="10" >
-
-        <TextView
-            android:id="@+id/Reward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="Rewards"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/Type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="3"
-            android:text="Type"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
--->
-
      <ListView
          android:id="@+id/rewards_listview"
          android:layout_width="fill_parent"
@@ -56,20 +28,4 @@
          android:layout_weight="1" >
 
      </ListView>
-    
- <!--    <Button
-         android:id="@+id/redeemAll"
-         style="@style/buttonTheme"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/ListView"
-         android:layout_centerHorizontal="true"
-         android:layout_gravity="center"
-         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
-         android:layout_marginTop="10dp"
-         android:paddingLeft="10dp"
-         android:paddingRight="10dp"
-         android:text="Redeem All" /> -->
-
 </LinearLayout>
