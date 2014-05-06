@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <supports-screens android:largestWidthLimitDp="480" />
+    <supports-screens android:largestWidthLimitDp="320" />
 
     <application
         android:name="com.cs160.surveyparrot.SurveyParrotApplication"
