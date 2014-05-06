@@ -75,6 +75,13 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
 		}
 	}
 	
+	@Override
+	public void onBackPressed(){
+		Intent openMainActivity = new Intent(this, MainActivity.class);
+        startActivity(openMainActivity);
+		finish();
+	}
+	
 	private void fetchSurvey(){
 		surveyName = Survey.surveys.get(SurveyActivity.surveyId).name;
 	}
@@ -156,12 +163,6 @@ public class ChooseSurveyActivity extends Activity implements OnClickListener, R
         sr.destroy();
     }
 	
-//	@Override
-//    public void onDestroy() {
-//        // Don't forget to shutdown TTS and SpeechRecognizer!
-//        //stopSpeechProcesses();
-//        super.onDestroy();
-//    }
 	
 	public void read(){
 		String input = "Would you like to take a survey on " + surveyName;

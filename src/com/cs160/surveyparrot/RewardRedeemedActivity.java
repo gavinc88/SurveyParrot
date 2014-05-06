@@ -21,33 +21,39 @@ public class RewardRedeemedActivity extends Activity {
 	String amt;
 	String info;
 	
+	int rewardNumber;
+	int type;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_redeemed);
 		context = this;
 		
-		name = " Amazon gift card";
-		amt = "$10.00";
-		info = "Was added to your account.";
+		Bundle args = getIntent().getExtras();
+		name = args.getString("RewardName");
+		amt = args.getString("Amount");
+		type = args.getInt("Type");
+		rewardNumber = args.getInt("RewardNumber");
 		
 		lineName = (TextView)findViewById(R.id.lineName);
-		lineName.setText("Your " + name + " of");
-		
 		lineAmt = (TextView)findViewById(R.id.lineAmt);
-		lineAmt.setText(amt);
-		
 		lineInfo = (TextView)findViewById(R.id.lineInfo);
-		lineInfo.setText(info);
+		
+		if(type == 1){
+			//gift card
+			lineName.setText("Your " + name + " gift card of");
+			lineAmt.setText(amt);
+		}else{
+			//coupon
+			lineName.setText("Your " + name + " coupon of");
+			lineAmt.setText(amt);
+		}
 	}
 	
 	@Override
 	public void onBackPressed(){
 		super.onBackPressed();
-//		Intent openMainActivity = new Intent(this, MainActivity.class);
-//		openMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//		openMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(openMainActivity);
 	}
 
 }

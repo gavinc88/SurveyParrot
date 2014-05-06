@@ -48,7 +48,8 @@
         android:layout_below="@id/lineAmt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="Info"
+        android:gravity="center_horizontal"
+        android:text="has been added to your account."
         android:textSize="20sp" />
 
 </RelativeLayout>

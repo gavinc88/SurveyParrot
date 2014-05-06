@@ -59,13 +59,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-//		if (id == R.id.debugVoice) {
-//		    Intent i = new Intent(this, DebugVoiceActivity.class);
-//		    startActivity(i);
 		if (id == R.id.action_settings) {
 			return true;
-//		}else if(id == R.id.view_completed_surveys){
-//			return true;
 		}else if(id == R.id.log_out){
 			//remove loggedInToken from SharedPreferences
 			SurveyParrotApplication app = (SurveyParrotApplication) getApplication();
