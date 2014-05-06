@@ -35,10 +35,7 @@ public class RewardRedeemedActivity extends Activity {
 		amt = args.getString("Amount");
 		type = args.getInt("Type");
 		rewardNumber = args.getInt("RewardNumber");
-		name = " Amazon gift card";
-		amt = "$10.00";
-		info = "was added to your account.";
-		
+
 		lineName = (TextView)findViewById(R.id.lineName);
 		lineAmt = (TextView)findViewById(R.id.lineAmt);
 		lineInfo = (TextView)findViewById(R.id.lineInfo);
